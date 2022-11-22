@@ -43,6 +43,11 @@ class Activity( Widget ):
         )
         yield Horizontal( Button( "Delete", variant="error" ), classes="buttons" )
 
+    def on_button_pressed( self, event: Button.Pressed ) -> None:
+        """React to a button being pressed on the widget."""
+        event.stop()
+        self.remove()
+
 ##############################################################################
 class Main( Screen ):
     """The main application screen."""
@@ -68,16 +73,11 @@ class Main( Screen ):
         self.api = BoredClient()
         self.set_focus( self.query_one( Button ) )
 
-    async def on_button_pressed( self, event: Button.Pressed ):
-        """Handle the button press.
-
-        Args:
-            event (Button.Pressed): The button pressed event.
-        """
-        if event.button.id is not None and event.button.id == "new":
-            self.query_one( "#activities" ).mount(
-                Activity( await self.api.get_random() ), before=0
-            )
+    async def on_button_pressed( self, _: Button.Pressed ):
+        """Handle the button press."""
+        self.query_one( "#activities" ).mount(
+            Activity( await self.api.get_random() ), before=0
+        )
 
 ##############################################################################
 class Unbored( App[ None ] ):
