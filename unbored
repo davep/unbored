@@ -21,6 +21,9 @@ from textual.binding    import Binding
 class Activity( Widget ):
     """A widget that holds and displays a suggested activity."""
 
+    BINDINGS = [ Binding( "d", "delete", "Delete" ) ]
+    """Bindings for the widget."""
+
     def __init__( self, activity: BoredActivity ):
         """Initialise the activity widget.
 
@@ -54,6 +57,10 @@ class Activity( Widget ):
     def on_button_pressed( self, event: Button.Pressed ) -> None:
         """React to a button being pressed on the widget."""
         event.stop()
+        self.remove()
+
+    def action_delete( self ) -> None:
+        """Delete action; removes this activity."""
         self.remove()
 
 ##############################################################################
