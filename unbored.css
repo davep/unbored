@@ -1,0 +1,25 @@
+Button {
+    width: 100%;
+}
+
+#activities {
+    width: 100%;
+    height: 1fr;
+}
+
+Activity {
+    height: auto;
+    padding: 1;
+    border: wide $primary;
+    background: $panel;
+}
+
+Activity > Static {
+    height: auto;
+}
+
+Activity .timestamp {
+    text-align: right;
+}
+
+/* unbored.css ends here */

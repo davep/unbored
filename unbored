@@ -1,0 +1,96 @@
+#!/usr/bin/env python
+
+##############################################################################
+# Python imports.
+from datetime import datetime
+
+##############################################################################
+# BoredAPI imports.
+from bored_api import BoredClient, BoredActivity
+
+##############################################################################
+# Textual imports.
+from textual.app        import App, ComposeResult
+from textual.screen     import Screen
+from textual.widget     import Widget
+from textual.containers import Vertical
+from textual.widgets    import Header, Footer, Button, Static
+
+##############################################################################
+class Activity( Widget ):
+    """A widget that holds and displays a suggested activity."""
+
+    def __init__( self, activity: BoredActivity ):
+        """Initialise the activity widget."""
+        super().__init__()
+        self.activity  = activity
+        self.chosen_at = datetime.now()
+
+    def compose( self ) -> ComposeResult:
+        """Compose the activity."""
+        yield Static( self.chosen_at.strftime( '%c' ), classes="timestamp" )
+        yield Static(
+            f"[b]{self.activity.activity}[/b]\n\n"
+            f"It's considered to have an accessibility of score of {self.activity.accessibility}"
+            " (0 being the most accessible; 1 being the least), "
+            f"is a {self.activity.type.value} type of activity, "
+            + (
+                f"requires around {self.activity.participants} participants "
+                if self.activity.participants > 1 else ""
+            ) +
+            f"and has a price score of {self.activity.price} (0 being free)."
+        )
+
+##############################################################################
+class Main( Screen ):
+    """The main application screen."""
+
+    def compose( self ) -> ComposeResult:
+        """Compose the main screen.
+
+        Returns:
+            ComposeResult: The layout for the main screen.
+        """
+        yield Header()
+        yield Vertical(
+            Button( "I'm Feeling Bored" ),
+            Vertical( id="activities" )
+        )
+        yield Footer()
+
+    def on_mount( self ):
+        """Set up the screen on mount."""
+        self.api = BoredClient()
+        self.set_focus( self.query_one( Button ) )
+
+    async def on_button_pressed( self, _: Button.Pressed ):
+        """Handle the button press."""
+        self.query_one( "#activities" ).mount(
+            Activity( await self.api.get_random() ), before=0
+        )
+
+##############################################################################
+class Unbored( App[ None ] ):
+    """The main application class."""
+
+    CSS_PATH = "unbored.css"
+    """The name of the CSS file for the application."""
+
+    TITLE = "Unbored"
+    """The title of the application."""
+
+    SCREENS = {
+        "main": Main
+    }
+    """The collection of application screens."""
+
+    def on_mount( self ) -> None:
+        """Set up the application on startup."""
+        self.push_screen( "main" )
+
+##############################################################################
+# Main entry point.
+if __name__ == "__main__":
+    Unbored().run()
+
+### unbored ends here
