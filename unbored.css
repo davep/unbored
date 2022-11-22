@@ -24,6 +24,7 @@ Activity .buttons {
 }
 
 Activity .timestamp {
+    text-style: italic;
     text-align: right;
 }
 
