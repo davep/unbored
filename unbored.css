@@ -1,3 +1,39 @@
+Screen {
+    layers: base filters;
+}
+
+Filters {
+    background: $panel;
+    layer: filters;
+    width: 50%;
+    border: round $primary;
+    height: 80%;
+    offset-y: 10%;
+    transition: offset 250ms in_out_cubic;
+}
+
+Filters.hidden {
+    offset: -100% 10%;
+}
+
+Filters:focus-within {
+    offset: 0 10% !important;
+}
+
+Filters Label {
+    text-style: bold;
+}
+
+Filters Label.h1 {
+    text-align: center;
+    border: hkey $primary;
+}
+
+Filters Label.h2 {
+    margin-top: 1;
+    margin-left: 1;
+}
+
 Button#new {
     width: 100%;
 }

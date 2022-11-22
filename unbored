@@ -11,10 +11,11 @@ from bored_api import BoredClient, BoredActivity
 ##############################################################################
 # Textual imports.
 from textual.app        import App, ComposeResult
+from textual.css.query  import NoMatches
 from textual.screen     import Screen
 from textual.widget     import Widget
 from textual.containers import Horizontal, Vertical
-from textual.widgets    import Header, Footer, Button, Static
+from textual.widgets    import Header, Footer, Button, Static, Label, Input
 from textual.binding    import Binding
 
 ##############################################################################
@@ -64,10 +65,35 @@ class Activity( Widget ):
         self.remove()
 
 ##############################################################################
+class Filters( Vertical ):
+    """Filtering sidebar."""
+
+    def compose( self ) -> ComposeResult:
+        """Compose the filter panel.
+
+        Returns:
+            ComposeResult: The layout for the filters panel.
+        """
+        yield Label( "Filters", classes="h1" )
+        yield Label( "Participants:", classes="h2" )
+        yield Input( placeholder="Max Participants" )
+        yield Label( "Min Price:", classes="h2" )
+        yield Input( placeholder="Minimum Price" )
+        yield Label( "Max Price:", classes="h2" )
+        yield Input( placeholder="Maximum Price" )
+        yield Label( "Min Accessibility:", classes="h2" )
+        yield Input( placeholder="Minimum Accessibility" )
+        yield Label( "Max Accessibility:", classes="h2" )
+        yield Input( placeholder="Maximum Accessibility" )
+
+##############################################################################
 class Main( Screen ):
     """The main application screen."""
 
-    BINDINGS = [ Binding( "escape", "app.quit", "Quit" ) ]
+    BINDINGS = [
+        Binding( "f", "filters", "Filters" ),
+        Binding( "escape", "close", "Close" )
+    ]
     """The bindings for the main screen."""
 
     def compose( self ) -> ComposeResult:
@@ -76,6 +102,7 @@ class Main( Screen ):
         Returns:
             ComposeResult: The layout for the main screen.
         """
+        yield Filters( classes="hidden" )
         yield Header()
         yield Vertical(
             Button( "I'm Feeling Bored", id="new" ),
@@ -93,6 +120,35 @@ class Main( Screen ):
         self.query_one( "#activities" ).mount(
             Activity( await self.api.get_random() ), before=0
         )
+
+    def action_close( self ) -> None:
+        """Handle the close action."""
+
+        # There's two ways the filters can appear, either by pulling them up
+        # with the binding, or by tabbing into the offscreen sidebar (I feel
+        # that this should not really be possible -- it feels like it should
+        # be possible to disable a tab-set in bulk, but anyway...). Here I
+        # look to see if focus is within the filters and, if it is, set
+        # focus back on the main button and also ensure that the hidden
+        # class is removed from the filters, before...
+        try:
+            _ = self.query_one( "Filters:focus-within" )
+            self.set_focus( self.query_one( "#new", Button ) )
+            self.query_one( Filters ).remove_class( "hidden" )
+        except NoMatches:
+            pass
+
+        # ...checking if the filters are hidden. If they are...
+        if self.query_one( Filters ).has_class( "hidden" ):
+            # ...escape bails on the app.
+            self.app.exit()
+        else:
+            # ...otherwise we toggle the filters.
+            self.action_filters()
+
+    def action_filters( self ) -> None:
+        """Toggle the display of the filters."""
+        self.query_one( Filters ).toggle_class( "hidden" )
 
 ##############################################################################
 class Unbored( App[ None ] ):
