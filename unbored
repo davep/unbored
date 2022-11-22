@@ -22,13 +22,21 @@ class Activity( Widget ):
     """A widget that holds and displays a suggested activity."""
 
     def __init__( self, activity: BoredActivity ):
-        """Initialise the activity widget."""
+        """Initialise the activity widget.
+
+        Args:
+            activity (BoredActivity): The activity to display.
+        """
         super().__init__()
         self.activity  = activity
         self.chosen_at = datetime.now()
 
     def compose( self ) -> ComposeResult:
-        """Compose the activity."""
+        """Compose the activity.
+
+        Returns:
+            ComposeResult: The layout for the main screen.
+        """
         yield Static( self.chosen_at.strftime( '%c' ), classes="timestamp" )
         yield Static(
             f"[b]{self.activity.activity}[/b]\n\n"
