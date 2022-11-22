@@ -15,6 +15,7 @@ from textual.screen     import Screen
 from textual.widget     import Widget
 from textual.containers import Vertical
 from textual.widgets    import Header, Footer, Button, Static
+from textual.binding    import Binding
 
 ##############################################################################
 class Activity( Widget ):
@@ -44,6 +45,9 @@ class Activity( Widget ):
 ##############################################################################
 class Main( Screen ):
     """The main application screen."""
+
+    BINDINGS = [ Binding( "escape", "app.quit", "Quit" ) ]
+    """The bindings for the main screen."""
 
     def compose( self ) -> ComposeResult:
         """Compose the main screen.
