@@ -1,4 +1,4 @@
-Button {
+Button#new {
     width: 100%;
 }
 
@@ -16,6 +16,11 @@ Activity {
 
 Activity > Static {
     height: auto;
+}
+
+Activity .buttons {
+    height: 3;
+    align: right bottom;
 }
 
 Activity .timestamp {

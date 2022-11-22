@@ -13,7 +13,7 @@ from bored_api import BoredClient, BoredActivity
 from textual.app        import App, ComposeResult
 from textual.screen     import Screen
 from textual.widget     import Widget
-from textual.containers import Vertical
+from textual.containers import Horizontal, Vertical
 from textual.widgets    import Header, Footer, Button, Static
 from textual.binding    import Binding
 
@@ -41,6 +41,7 @@ class Activity( Widget ):
             ) +
             f"and has a price score of {self.activity.price} (0 being free)."
         )
+        yield Horizontal( Button( "Delete", variant="error" ), classes="buttons" )
 
 ##############################################################################
 class Main( Screen ):
@@ -57,7 +58,7 @@ class Main( Screen ):
         """
         yield Header()
         yield Vertical(
-            Button( "I'm Feeling Bored" ),
+            Button( "I'm Feeling Bored", id="new" ),
             Vertical( id="activities" )
         )
         yield Footer()
@@ -67,11 +68,16 @@ class Main( Screen ):
         self.api = BoredClient()
         self.set_focus( self.query_one( Button ) )
 
-    async def on_button_pressed( self, _: Button.Pressed ):
-        """Handle the button press."""
-        self.query_one( "#activities" ).mount(
-            Activity( await self.api.get_random() ), before=0
-        )
+    async def on_button_pressed( self, event: Button.Pressed ):
+        """Handle the button press.
+
+        Args:
+            event (Button.Pressed): The button pressed event.
+        """
+        if event.button.id is not None and event.button.id == "new":
+            self.query_one( "#activities" ).mount(
+                Activity( await self.api.get_random() ), before=0
+            )
 
 ##############################################################################
 class Unbored( App[ None ] ):
