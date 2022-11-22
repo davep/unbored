@@ -1,6 +1,6 @@
 ###############################################################################
 # Common make values.
-app    := unboard
+app    := unbored
 run    := pipenv run
 python := $(run) python
 lint   := $(run) pylint
