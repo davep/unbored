@@ -8,6 +8,8 @@ textual = {extras = ["dev"], version = "*"}
 bored-api = "*"
 
 [dev-packages]
+pylint = "*"
+mypy = "*"
 
 [requires]
 python_version = "3.11"
