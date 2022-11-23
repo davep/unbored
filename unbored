@@ -86,6 +86,27 @@ class IntInput( Input ):
         return value
 
 ##############################################################################
+class FloatInput( Input ):
+    """An input widget that only accepts (most) float values."""
+
+    def validate_value( self, value: str ) -> str:
+        """Validate the input.
+
+        Args:
+            value (str): The value to validate.
+
+        Retuens:
+            str: The acceptable value.
+        """
+        if value.strip():
+            try:
+                _ = float( value )
+            except ValueError:
+                self.app.bell()
+                return self.value
+        return value
+
+##############################################################################
 class Filters( Vertical ):
     """Filtering sidebar."""
 
@@ -103,9 +124,9 @@ class Filters( Vertical ):
         yield Label( "Max Price:", classes="h2" )
         yield IntInput( placeholder="Maximum Price" )
         yield Label( "Min Accessibility:", classes="h2" )
-        yield Input( placeholder="Minimum Accessibility" )
+        yield FloatInput( placeholder="Minimum Accessibility" )
         yield Label( "Max Accessibility:", classes="h2" )
-        yield Input( placeholder="Maximum Accessibility" )
+        yield FloatInput( placeholder="Maximum Accessibility" )
 
 ##############################################################################
 class Main( Screen ):
