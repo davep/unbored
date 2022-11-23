@@ -49,7 +49,7 @@ class Activity( Widget ):
             " (0 being the most accessible; 1 being the least), "
             f"is a {self.activity.type.value} type of activity, "
             + (
-                f"requires around {self.activity.participants} participants "
+                f"requires {self.activity.participants} participants "
                 if self.activity.participants > 1 else ""
             ) +
             f"and has a price score of {self.activity.price} (0 being free)."
