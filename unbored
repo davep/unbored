@@ -77,6 +77,7 @@ class IntInput( Input ):
         Retuens:
             str: The acceptable value.
         """
+        self.log.debug( f"IntInput: validate '{value}' vs '{self.value}'" )
         if value.strip():
             try:
                 _ = int( value )
@@ -98,6 +99,7 @@ class FloatInput( Input ):
         Retuens:
             str: The acceptable value.
         """
+        self.log.debug( f"FloatInput: validate '{value}' vs '{self.value}'" )
         if value.strip():
             try:
                 _ = float( value )
