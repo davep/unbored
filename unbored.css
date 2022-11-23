@@ -57,6 +57,11 @@ Activity {
     background: $panel;
 }
 
+Activity:focus-within {
+    background: $panel-lighten-1;
+    border: wide $primary-lighten-1;
+}
+
 Activity > Static {
     height: auto;
 }
