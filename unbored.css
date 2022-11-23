@@ -34,7 +34,14 @@ Filters Label.h2 {
     margin-left: 1;
 }
 
-Button#new {
+TypeChoices {
+    height: 6;
+    layout: grid;
+    grid-size: 5;
+    grid-gutter: 0;
+}
+
+TypeChoices Button {
     width: 100%;
 }
 
