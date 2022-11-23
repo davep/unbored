@@ -134,7 +134,7 @@ class Filters( Vertical ):
         """
         yield Label( "Filters", classes="h1" )
         yield Label( "Participants:", classes="h2" )
-        yield IntInput( placeholder="Max Participants" )
+        yield IntInput( id="participants", placeholder="Number of participants" )
         yield Label( "Min Price:", classes="h2" )
         yield IntInput( placeholder="Minimum Price" )
         yield Label( "Max Price:", classes="h2" )
@@ -143,6 +143,15 @@ class Filters( Vertical ):
         yield FloatInput( placeholder="Minimum Accessibility" )
         yield Label( "Max Accessibility:", classes="h2" )
         yield FloatInput( placeholder="Maximum Accessibility" )
+
+    @property
+    def participants( self ) -> int | None:
+        try:
+            if ( value := int( self.query_one( "#participants", IntInput ).value.strip() ) ) > 0:
+                return value
+        except ValueError:
+            pass
+        return None
 
 ##############################################################################
 class TypeChoices( Container ):
