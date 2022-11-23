@@ -143,9 +143,9 @@ class Filters( Vertical ):
         yield Label( "Max Price:", classes="h2" )
         yield FloatInput( id="max_price", placeholder="Maximum Price (between 0 (free) and 1)" )
         yield Label( "Min Accessibility:", classes="h2" )
-        yield FloatInput( placeholder="Minimum Accessibility" )
+        yield FloatInput( id="min_accessibility", placeholder="Minimum Accessibility" )
         yield Label( "Max Accessibility:", classes="h2" )
-        yield FloatInput( placeholder="Maximum Accessibility" )
+        yield FloatInput( id="max_accessibility", placeholder="Maximum Accessibility" )
 
     @property
     def participants( self ) -> int | None:
@@ -184,6 +184,34 @@ class Filters( Vertical ):
             return max_val
         return value
 
+    def _min_max_value( self, value: str ) -> tuple[ float | None, float | None ]:
+        """Get a min/max float value from the filters.
+
+        Args:
+            value (str): The name of the filter value to get.
+
+        Returns:
+            tuple[ float | None, float | None ]: The filter value.
+        """
+        def _value( which: str ) -> float | None:
+            try:
+                if ( price := float( self.query_one( f"#{which}_{value}", FloatInput ).value.strip() ) ) <= 0:
+                    price = None
+            except ValueError:
+                price = None
+            return price
+
+        # Get the filter values.
+        min_value = self.clamp( _value( "min" ), 0, 1 )
+        max_value = self.clamp( _value( "max" ), 0, 1 )
+
+        # Let's be nicer to a confused user, I guess.
+        if min_value is not None and max_value is not None and max_value < min_value:
+            return max_value, min_value
+
+        # Finally, return what we've got.
+        return min_value, max_value
+
     @property
     def price( self ) -> tuple[ float | None, float | None ]:
         """tuple[ float | None, float | None ]: The price filter.
@@ -191,25 +219,17 @@ class Filters( Vertical ):
         A tuple of minimum and maximum price filters. If no filter value was
         provided for either of the values then they will be `None`.
         """
+        return self._min_max_value( "price" )
 
-        def _price( which: str ) -> float | None:
-            try:
-                if ( price := float( self.query_one( f"#{which}_price", FloatInput ).value.strip() ) ) <= 0:
-                    price = None
-            except ValueError:
-                price = None
-            return price
+    @property
+    def accessibility( self ) -> tuple[ float | None, float | None ]:
+        """tuple[ float | None, float | None ]: The accessibility filter.
 
-        # Get the filter values.
-        min_price = self.clamp( _price( "min" ), 0, 1 )
-        max_price = self.clamp( _price( "max" ), 0, 1 )
-
-        # Let's be nicer to a confused user, I guess.
-        if min_price is not None and max_price is not None and max_price < min_price:
-            return max_price, min_price
-
-        # Finally, return what we've got.
-        return min_price, max_price
+        A tuple of minimum and maximum accessibility filters. If no filter
+        value was provided for either of the values then they will be
+        `None`.
+        """
+        return self._min_max_value( "accessibility" )
 
 ##############################################################################
 class TypeChoices( Container ):
@@ -270,6 +290,13 @@ class Main( Screen ):
             options[ "min_price" ] = min_price
         if max_price is not None:
             options[ "max_price" ] = max_price
+
+        # See if we should apply accessibility filtering.
+        min_accessibility, max_accessibility = self.filters.accessibility
+        if min_accessibility is not None:
+            options[ "min_accessibility" ] = min_accessibility
+        if max_accessibility is not None:
+            options[ "max_accessibility" ] = max_accessibility
 
         # Get the new activity.
         try:
