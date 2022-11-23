@@ -138,14 +138,14 @@ class Filters( Vertical ):
         yield Label( "Filters", classes="h1" )
         yield Label( "Participants:", classes="h2" )
         yield IntInput( id="participants", placeholder="Number of participants" )
-        yield Label( "Min Price:", classes="h2" )
-        yield FloatInput( id="min_price", placeholder="Minimum Price (between 0 (free) and 1)" )
-        yield Label( "Max Price:", classes="h2" )
-        yield FloatInput( id="max_price", placeholder="Maximum Price (between 0 (free) and 1)" )
-        yield Label( "Min Accessibility:", classes="h2" )
-        yield FloatInput( id="min_accessibility", placeholder="Minimum Accessibility" )
-        yield Label( "Max Accessibility:", classes="h2" )
-        yield FloatInput( id="max_accessibility", placeholder="Maximum Accessibility" )
+        yield Label( "Minimum Price:", classes="h2" )
+        yield FloatInput( id="min_price", placeholder="Between 0 (free) and 1 (expensive)" )
+        yield Label( "Maximum Price:", classes="h2" )
+        yield FloatInput( id="max_price", placeholder="Between 0 (free) and 1 (expensive))" )
+        yield Label( "Minimum Accessibility:", classes="h2" )
+        yield FloatInput( id="min_accessibility", placeholder="Between 0 (most) and 1 (least)" )
+        yield Label( "Maximum Accessibility:", classes="h2" )
+        yield FloatInput( id="max_accessibility", placeholder="Between 0 (most) and 1 (least)" )
 
     @property
     def participants( self ) -> int | None:
