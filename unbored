@@ -203,7 +203,7 @@ class Main( Screen ):
 
         # If the button wasn't the any button, it'll have been one of the
         # activity type buttons. The filter value is in the button ID.
-        if event.button.id != "any":
+        if event.button.id is not None and event.button.id != "any":
             options[ "type" ] = event.button.id
 
         # If it looks like we've got a participants filter...
