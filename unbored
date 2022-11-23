@@ -3,7 +3,7 @@
 ##############################################################################
 # Python imports.
 from datetime import datetime
-from typing   import Callable, Any
+from typing   import Callable, Any, TypeVar
 
 ##############################################################################
 # BoredAPI imports.
@@ -122,6 +122,9 @@ class FloatInput( ValCastCheckInput ):
 
     CAST = float
 
+TClamp = TypeVar( "TClamp", int, float )
+"""A clampable type."""
+
 ##############################################################################
 class Filters( Vertical ):
     """Filtering sidebar."""
@@ -136,9 +139,9 @@ class Filters( Vertical ):
         yield Label( "Participants:", classes="h2" )
         yield IntInput( id="participants", placeholder="Number of participants" )
         yield Label( "Min Price:", classes="h2" )
-        yield IntInput( placeholder="Minimum Price" )
+        yield FloatInput( id="min_price", placeholder="Minimum Price (between 0 (free) and 1)" )
         yield Label( "Max Price:", classes="h2" )
-        yield IntInput( placeholder="Maximum Price" )
+        yield FloatInput( id="max_price", placeholder="Maximum Price (between 0 (free) and 1)" )
         yield Label( "Min Accessibility:", classes="h2" )
         yield FloatInput( placeholder="Minimum Accessibility" )
         yield Label( "Max Accessibility:", classes="h2" )
@@ -157,6 +160,56 @@ class Filters( Vertical ):
         except ValueError:
             pass
         return None
+
+    @staticmethod
+    def clamp( value: TClamp | None, min_val : TClamp, max_val: TClamp ) -> TClamp | None:
+        """Clamp a value.
+
+        Args:
+            value (TClamp | None): The value to clamp.
+            min_val (TClamp): The minimum value.
+            max_val (TClamp): The maximum value.
+
+        Returns:
+            TClamp | None: The clamped value.
+
+        Note:
+            If the value is `None`, then `None` will be returned.
+        """
+        if value is None:
+            return value
+        if value < min_val:
+            return min_val
+        if value > max_val:
+            return max_val
+        return value
+
+    @property
+    def price( self ) -> tuple[ float | None, float | None ]:
+        """tuple[ float | None, float | None ]: The price filter.
+
+        A tuple of minimum and maximum price filters. If no filter value was
+        provided for either of the values then they will be `None`.
+        """
+
+        def _price( which: str ) -> float | None:
+            try:
+                if ( price := float( self.query_one( f"#{which}_price", FloatInput ).value.strip() ) ) <= 0:
+                    price = None
+            except ValueError:
+                price = None
+            return price
+
+        # Get the filter values.
+        min_price = self.clamp( _price( "min" ), 0, 1 )
+        max_price = self.clamp( _price( "max" ), 0, 1 )
+
+        # Let's be nicer to a confused user, I guess.
+        if min_price is not None and max_price is not None and max_price < min_price:
+            return max_price, min_price
+
+        # Finally, return what we've got.
+        return min_price, max_price
 
 ##############################################################################
 class TypeChoices( Container ):
@@ -210,6 +263,13 @@ class Main( Screen ):
         if ( participants := self.filters.participants ) is not None:
             # ...add that.
             options[ "participants" ] = participants
+
+        # See if we should apply price filtering.
+        min_price, max_price = self.filters.price
+        if min_price is not None:
+            options[ "min_price" ] = min_price
+        if max_price is not None:
+            options[ "max_price" ] = max_price
 
         # Get the new activity.
         try:
