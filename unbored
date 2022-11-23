@@ -7,7 +7,7 @@ from typing   import Callable, Any
 
 ##############################################################################
 # BoredAPI imports.
-from bored_api import BoredClient, BoredActivity, ActivityType
+from bored_api import BoredClient, BoredActivity, ActivityType, BoredException
 
 ##############################################################################
 # Textual imports.
@@ -207,9 +207,15 @@ class Main( Screen ):
             options[ "participants" ] = participants
 
         # Get the new activity.
-        self.query_one( "#activities" ).mount(
-            Activity( await self.api.get( **options ) ), before=0
-        )
+        try:
+            self.query_one( "#activities" ).mount(
+                Activity( await self.api.get( **options ) ), before=0
+            )
+        except BoredException:
+            self.query_one( "#activities" ).mount(
+                Static( "No activities match the filters; TODO: display this better" ),
+                before=0
+            )
 
     def action_close( self ) -> None:
         """Handle the close action."""
