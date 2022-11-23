@@ -197,7 +197,7 @@ class Main( Screen ):
     async def on_button_pressed( self, event: Button.Pressed ) -> None:
         """Handle the button press."""
 
-        # We're going to build up a collectio of options to dictate the
+        # We're going to build up a collection of options to dictate the
         # choice made.
         options = {}
 
