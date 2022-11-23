@@ -6,12 +6,19 @@ http://www.boredapi.com/
 
 ##############################################################################
 # Python imports.
-from datetime import datetime
-from typing   import Callable, Any, TypeVar
+from datetime    import datetime
+from typing      import Callable, Any, TypeVar, Final
+from pathlib     import Path
+from json        import dumps, loads, JSONEncoder
+from dataclasses import is_dataclass, asdict
 
 ##############################################################################
 # BoredAPI imports.
 from bored_api import BoredClient, BoredActivity, ActivityType, BoredException
+
+##############################################################################
+# XDG imports.
+from xdg import xdg_data_home
 
 ##############################################################################
 # Textual imports.
@@ -22,6 +29,19 @@ from textual.widget     import Widget
 from textual.containers import Container, Horizontal, Vertical
 from textual.widgets    import Header, Footer, Button, Static, Label, Input
 from textual.binding    import Binding
+from textual.message    import Message
+
+##############################################################################
+class ActivityEncoder( JSONEncoder ):
+    """JSON encoder that understands about activities."""
+
+    def default( self, o: object ):
+        """Handle unknown values."""
+        if is_dataclass( o ):
+            return asdict( o )
+        if isinstance( o, ActivityType ):
+            return o.value
+        return super().default( o )
 
 ##############################################################################
 class Activity( Widget ):
@@ -60,14 +80,22 @@ class Activity( Widget ):
         )
         yield Horizontal( Button( "Delete", variant="error" ), classes="buttons" )
 
-    def on_button_pressed( self, event: Button.Pressed ) -> None:
+    class Dropped( Message ):
+        """A message to indicate that an activity was dropped."""
+
+    async def drop_activity( self ):
+        """Drop the current activity, letting the parent know we're doing so."""
+        await self.emit( self.Dropped( self ) )
+        await self.remove()
+
+    async def on_button_pressed( self, event: Button.Pressed ) -> None:
         """React to a button being pressed on the widget."""
         event.stop()
-        self.remove()
+        await self.drop_activity()
 
-    def action_delete( self ) -> None:
+    async def action_delete( self ) -> None:
         """Delete action; removes this activity."""
-        self.remove()
+        await self.drop_activity()
 
 ##############################################################################
 class ValCastCheckInput( Input ):
@@ -266,7 +294,8 @@ class Main( Screen ):
             ComposeResult: The layout for the main screen.
         """
         yield Header()
-        yield Vertical( TypeChoices(), Vertical( id="activities" ) )
+        self.activities = Vertical( id="activities" )
+        yield Vertical( TypeChoices(), self.activities )
         yield Footer()
         self.filters = Filters( classes="hidden" )
         yield self.filters
@@ -275,6 +304,35 @@ class Main( Screen ):
         """Set up the screen on mount."""
         self.api = BoredClient()
         self.set_focus( self.query_one( "#any", Button ) )
+        self.load_activity_list()
+
+    ACTIVITY_FILE: Final = Path( "unboard.json" )
+    """Path: The name of the file that the list it saved to."""
+
+    @property
+    def data_file( self ) -> Path:
+        """Path: The full path to the file for saving the data.
+
+        Note:
+            As a side effect of access the directory will be crated if it
+            doesn't exist.
+        """
+        ( save_to := xdg_data_home() / "unboard" ).mkdir( parents=True, exist_ok=True )
+        return save_to / self.ACTIVITY_FILE
+
+    def save_activity_list( self ) -> None:
+        """Save the activity list to disk."""
+        self.data_file.write_text( dumps(
+            [ activity.activity for activity in self.activities.query( Activity ) ],
+            cls=ActivityEncoder, indent=4
+        ) )
+
+    def load_activity_list( self ) -> None:
+        """Load the activity list from disk."""
+        if self.data_file.exists():
+            for activity in loads( self.data_file.read_text() ):
+                activity[ "type" ] = ActivityType( activity[ "type" ] )
+                self.activities.mount( Activity( BoredActivity( **activity ) ) )
 
     async def on_button_pressed( self, event: Button.Pressed ) -> None:
         """Handle the button press."""
@@ -309,11 +367,12 @@ class Main( Screen ):
 
         # Get the new activity.
         try:
-            self.query_one( "#activities" ).mount(
+            self.activities.mount(
                 Activity( await self.api.get( **options ) ), before=0
             )
+            self.save_activity_list()
         except BoredException:
-            self.query_one( "#activities" ).mount(
+            self.activities.mount(
                 Static( "No activities match the filters; TODO: display this better" ),
                 before=0
             )
@@ -348,6 +407,10 @@ class Main( Screen ):
         self.filters.toggle_class( "hidden" )
         if not self.filters.has_class( "hidden" ):
             self.filters.query( Input ).first().focus()
+
+    def on_activity_dropped( self, _: Activity.Dropped ):
+        """React to an activity being dropped."""
+        self.save_activity_list()
 
 ##############################################################################
 class Unbored( App[ None ] ):
