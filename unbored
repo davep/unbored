@@ -330,9 +330,12 @@ class Main( Screen ):
     def load_activity_list( self ) -> None:
         """Load the activity list from disk."""
         if self.data_file.exists():
+            to_mount: list[ Activity ] = []
             for activity in loads( self.data_file.read_text() ):
                 activity[ "type" ] = ActivityType( activity[ "type" ] )
-                self.activities.mount( Activity( BoredActivity( **activity ) ) )
+                to_mount.append( Activity( BoredActivity( **activity ) ) )
+            if to_mount:
+                self.activities.mount( *to_mount )
 
     async def on_button_pressed( self, event: Button.Pressed ) -> None:
         """Handle the button press."""
