@@ -201,6 +201,11 @@ class Main( Screen ):
         if event.button.id != "any":
             options[ "type" ] = event.button.id
 
+        # If it looks like we've got a participants filter...
+        if ( participants := self.filters.participants ) is not None:
+            # ...add that.
+            options[ "participants" ] = participants
+
         # Get the new activity.
         self.query_one( "#activities" ).mount(
             Activity( await self.api.get( **options ) ), before=0
