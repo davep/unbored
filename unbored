@@ -235,6 +235,11 @@ class Filters( Vertical ):
 class TypeChoices( Container ):
 
     def compose( self ) -> ComposeResult:
+        """Compose the type choices button collection.
+
+        Returns:
+            ComposeResult: The layout for the type choice buttons.
+        """
         yield Button( "Any", id="any" )
         yield from ( Button(
             activity.value.capitalize(), id=activity.value
