@@ -76,6 +76,12 @@ class ValCastCheckInput( Input ):
     problem with the value.
     """
 
+    def __init__( self, *args: Any, **kwargs: Any ) -> None:
+        """Initialise the input."""
+        super().__init__( *args, **kwargs )
+        # TODO: Workaround for https://github.com/Textualize/textual/issues/1216
+        self.value = self.validate_value( self.value )
+
     def validate_value( self, value: str ) -> str:
         """Validate the input.
 
