@@ -6,6 +6,7 @@ name = "pypi"
 [packages]
 textual = {extras = ["dev"], version = "*"}
 bored-api = "*"
+xdg = "*"
 
 [dev-packages]
 pylint = "*"
