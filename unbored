@@ -65,6 +65,27 @@ class Activity( Widget ):
         self.remove()
 
 ##############################################################################
+class IntInput( Input ):
+    """An input widget that only accepts integer values."""
+
+    def validate_value( self, value: str ) -> str:
+        """Validate the input.
+
+        Args:
+            value (str): The value to validate.
+
+        Retuens:
+            str: The acceptable value.
+        """
+        if value.strip():
+            try:
+                _ = int( value )
+            except ValueError:
+                self.app.bell()
+                return self.value
+        return value
+
+##############################################################################
 class Filters( Vertical ):
     """Filtering sidebar."""
 
@@ -76,11 +97,11 @@ class Filters( Vertical ):
         """
         yield Label( "Filters", classes="h1" )
         yield Label( "Participants:", classes="h2" )
-        yield Input( placeholder="Max Participants" )
+        yield IntInput( placeholder="Max Participants" )
         yield Label( "Min Price:", classes="h2" )
-        yield Input( placeholder="Minimum Price" )
+        yield IntInput( placeholder="Minimum Price" )
         yield Label( "Max Price:", classes="h2" )
-        yield Input( placeholder="Maximum Price" )
+        yield IntInput( placeholder="Maximum Price" )
         yield Label( "Min Accessibility:", classes="h2" )
         yield Input( placeholder="Minimum Accessibility" )
         yield Label( "Max Accessibility:", classes="h2" )
