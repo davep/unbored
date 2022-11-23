@@ -184,12 +184,12 @@ class Main( Screen ):
         self.filters = Filters( classes="hidden" )
         yield self.filters
 
-    def on_mount( self ):
+    def on_mount( self ) -> None:
         """Set up the screen on mount."""
         self.api = BoredClient()
         self.set_focus( self.query_one( "#any", Button ) )
 
-    async def on_button_pressed( self, event: Button.Pressed ):
+    async def on_button_pressed( self, event: Button.Pressed ) -> None:
         """Handle the button press."""
 
         # We're going to build up a collectio of options to dictate the
