@@ -3,6 +3,7 @@
 ##############################################################################
 # Python imports.
 from datetime import datetime
+from typing   import Callable, Any
 
 ##############################################################################
 # BoredAPI imports.
@@ -65,8 +66,10 @@ class Activity( Widget ):
         self.remove()
 
 ##############################################################################
-class IntInput( Input ):
+class ValCastCheckInput( Input ):
     """An input widget that only accepts integer values."""
+
+    CAST: Callable[ [ Any ], Any ] = str
 
     def validate_value( self, value: str ) -> str:
         """Validate the input.
@@ -74,39 +77,28 @@ class IntInput( Input ):
         Args:
             value (str): The value to validate.
 
-        Retuens:
+        Returns:
             str: The acceptable value.
         """
-        self.log.debug( f"IntInput: validate '{value}' vs '{self.value}'" )
         if value.strip():
             try:
-                _ = int( value )
+                _ = self.CAST( value )
             except ValueError:
                 self.app.bell()
                 return self.value
         return value
 
 ##############################################################################
-class FloatInput( Input ):
+class IntInput( ValCastCheckInput ):
+    """An input widget that only accepts integer float values."""
+
+    CAST = int
+
+##############################################################################
+class FloatInput( ValCastCheckInput ):
     """An input widget that only accepts (most) float values."""
 
-    def validate_value( self, value: str ) -> str:
-        """Validate the input.
-
-        Args:
-            value (str): The value to validate.
-
-        Retuens:
-            str: The acceptable value.
-        """
-        self.log.debug( f"FloatInput: validate '{value}' vs '{self.value}'" )
-        if value.strip():
-            try:
-                _ = float( value )
-            except ValueError:
-                self.app.bell()
-                return self.value
-        return value
+    CAST = float
 
 ##############################################################################
 class Filters( Vertical ):
