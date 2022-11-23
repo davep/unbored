@@ -102,13 +102,13 @@ class Main( Screen ):
         Returns:
             ComposeResult: The layout for the main screen.
         """
-        yield Filters( classes="hidden" )
         yield Header()
         yield Vertical(
             Button( "I'm Feeling Bored", id="new" ),
             Vertical( id="activities" )
         )
         yield Footer()
+        yield Filters( classes="hidden" )
 
     def on_mount( self ):
         """Set up the screen on mount."""
