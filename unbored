@@ -1,4 +1,8 @@
 #!/usr/bin/env python
+"""A simple terminal-based client for the Bored API.
+
+http://www.boredapi.com/
+"""
 
 ##############################################################################
 # Python imports.
