@@ -239,6 +239,8 @@ class Main( Screen ):
     def action_filters( self ) -> None:
         """Toggle the display of the filters."""
         self.filters.toggle_class( "hidden" )
+        if not self.filters.has_class( "hidden" ):
+            self.filters.query( Input ).first().focus()
 
 ##############################################################################
 class Unbored( App[ None ] ):
