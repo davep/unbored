@@ -62,6 +62,7 @@ Activity > Static {
 }
 
 Activity .buttons {
+    margin-top: 1;
     height: 3;
     align: right bottom;
 }
