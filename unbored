@@ -146,6 +146,11 @@ class Filters( Vertical ):
 
     @property
     def participants( self ) -> int | None:
+        """int | None: The participants filter value.
+
+        If the user appears to have provided a value, it will be an integer.
+        If there is no given value or it doesn't look this will be `None`.
+        """
         try:
             if ( value := int( self.query_one( "#participants", IntInput ).value.strip() ) ) > 0:
                 return value
