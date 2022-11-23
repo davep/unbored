@@ -181,7 +181,8 @@ class Main( Screen ):
         yield Header()
         yield Vertical( TypeChoices(), Vertical( id="activities" ) )
         yield Footer()
-        yield Filters( classes="hidden" )
+        self.filters = Filters( classes="hidden" )
+        yield self.filters
 
     def on_mount( self ):
         """Set up the screen on mount."""
