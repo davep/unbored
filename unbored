@@ -224,12 +224,12 @@ class Main( Screen ):
         try:
             _ = self.query_one( "Filters:focus-within" )
             self.set_focus( self.query_one( "#any", Button ) )
-            self.query_one( Filters ).remove_class( "hidden" )
+            self.filters.remove_class( "hidden" )
         except NoMatches:
             pass
 
         # ...checking if the filters are hidden. If they are...
-        if self.query_one( Filters ).has_class( "hidden" ):
+        if self.filters.has_class( "hidden" ):
             # ...escape bails on the app.
             self.app.exit()
         else:
@@ -238,7 +238,7 @@ class Main( Screen ):
 
     def action_filters( self ) -> None:
         """Toggle the display of the filters."""
-        self.query_one( Filters ).toggle_class( "hidden" )
+        self.filters.toggle_class( "hidden" )
 
 ##############################################################################
 class Unbored( App[ None ] ):
