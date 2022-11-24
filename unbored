@@ -524,6 +524,10 @@ class Main( Screen ):
         if self.filters.shown:
             # ...close them.
             self.filters.hide()
+        elif self.activities.query( "*:focus-within" ):
+            # Focus is within the activities. Let's draw back up to the
+            # types.
+            self.set_focus( self.query_one( "#any", Button ) )
         else:
             # ...otherwise close the app.
             self.app.exit()
