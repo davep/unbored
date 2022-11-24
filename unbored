@@ -173,6 +173,12 @@ class Activity( Widget ):
         """Delete action; removes this activity."""
         await self.drop_activity()
 
+    def on_mouse_down( self, _ ):
+        """React to the mouse button going down within us."""
+        if len( self.query( "*:focus-within" ) ) == 0:
+            self.query( Button ).first().focus()
+            self.scroll_visible()
+
 ##############################################################################
 class ValCastCheckInput( Input ):
     """An input widget that only accepts integer values."""
