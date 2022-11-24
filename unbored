@@ -35,7 +35,7 @@ from textual.message    import Message
 class ActivityEncoder( JSONEncoder ):
     """JSON encoder that understands about activities."""
 
-    def default( self, o: object ):
+    def default( self, o: object ) -> Any:
         """Handle unknown values."""
         if is_dataclass( o ):
             return asdict( o )
@@ -136,7 +136,7 @@ class Activity( Widget ):
     class Dropped( Message ):
         """A message to indicate that an activity was dropped."""
 
-    async def drop_activity( self ):
+    async def drop_activity( self ) -> None:
         """Drop the current activity, letting the parent know we're doing so."""
         # This seems to work, I can't make this fail, but I'm not 100%
         # convinced by this. I want the parent to know that I'm being
@@ -510,11 +510,11 @@ class Main( Screen ):
         else:
             self.filters.show()
 
-    def on_activity_moved( self, _: Activity.Moved ):
+    def on_activity_moved( self, _: Activity.Moved ) -> None:
         """React to an activity being moved."""
         self.save_activity_list()
 
-    def on_activity_dropped( self, _: Activity.Dropped ):
+    def on_activity_dropped( self, _: Activity.Dropped ) -> None:
         """React to an activity being dropped."""
         self.save_activity_list()
 
