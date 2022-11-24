@@ -47,10 +47,10 @@ class ActivityEncoder( JSONEncoder ):
 class WebLink( Button ):
     """A button that links to a URL."""
 
-    def __init__( self, link: str, *args: Any, **kwargs: Any ) -> None:
+    def __init__( self, link: str ) -> None:
         """Initialise the link button."""
         self._link = link
-        super().__init__( "Link", *args, variant="success", **kwargs )
+        super().__init__( "Link", variant="success" )
 
     def visit( self ) -> None:
         """Visit the URL for the link."""
