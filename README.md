@@ -12,7 +12,7 @@ it's easily installable.
 
 ## TODO
 
-- [ ] Allow for rearranging items in the list.
+- [X] Allow for rearranging items in the list.
 - [ ] Tidy up the small issues with how the filters appear.
 - [ ] Add support for links when they're associated with an activity.
 - [ ] Error checking. LOTS of error checking.

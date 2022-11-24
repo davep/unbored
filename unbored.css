@@ -77,7 +77,7 @@ Activity .timestamp {
     text-align: right;
 }
 
-NoMatches {
+NoMatchingActivities {
     layer: warning;
     background: red;
     color: yellow;
@@ -91,7 +91,7 @@ NoMatches {
     transition: offset 250ms in_out_cubic;
 }
 
-NoMatches.hidden {
+NoMatchingActivities.hidden {
     offset-x: 60%;
     offset-y: -100%;
 }

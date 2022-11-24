@@ -7,7 +7,7 @@ http://www.boredapi.com/
 ##############################################################################
 # Python imports.
 from datetime    import datetime
-from typing      import Callable, Any, TypeVar, Final
+from typing      import Callable, Any, TypeVar, Final, cast
 from pathlib     import Path
 from json        import dumps, loads, JSONEncoder
 from dataclasses import is_dataclass, asdict
@@ -47,7 +47,11 @@ class ActivityEncoder( JSONEncoder ):
 class Activity( Widget ):
     """A widget that holds and displays a suggested activity."""
 
-    BINDINGS = [ Binding( "d", "delete", "Delete" ) ]
+    BINDINGS = [
+        Binding( "d", "delete", "Delete" ),
+        Binding( "up", "move_up", "Move Up" ),
+        Binding( "down", "move_down", "Move Down" ),
+    ]
     """Bindings for the widget."""
 
     def __init__( self, activity: BoredActivity ):
@@ -59,6 +63,38 @@ class Activity( Widget ):
         super().__init__()
         self.activity  = activity
         self.chosen_at = datetime.now()
+
+    @property
+    def is_first( self ) -> bool:
+        """bool: This is the first activity in the activity list."""
+        return self.parent is not None and self.parent.children[ 0 ] == self
+
+    @property
+    def is_last( self ) -> bool:
+        """bool: This is th elast activity in the activity list."""
+        return self.parent is not None and self.parent.children[ -1 ] == self
+
+    class Moved( Message ):
+        """A message to indicate that an activity has moved."""
+
+    def action_move_up( self ) -> None:
+        """Move this activity up one place in the list."""
+        if self.parent is not None and not self.is_first:
+            parent = cast( Widget, self.parent )
+            parent.move_child(
+                self, before=parent.children.index( self ) - 1
+            )
+            self.emit_no_wait( self.Moved( self ) )
+            self.scroll_visible( top=True )
+
+    def action_move_down( self ) -> None:
+        """Move this activity up down place in the list."""
+        if self.parent is not None and not self.is_last:
+            cast( Widget, self.parent ).move_child(
+                self, after=self.parent.children.index( self ) + 1
+            )
+            self.emit_no_wait( self.Moved( self ) )
+            self.scroll_visible( top=True )
 
     def compose( self ) -> ComposeResult:
         """Compose the activity.
@@ -433,6 +469,10 @@ class Main( Screen ):
         self.filters.toggle_class( "hidden" )
         if not self.filters.has_class( "hidden" ):
             self.filters.query( Input ).first().focus()
+
+    def on_activity_moved( self, _: Activity.Moved ):
+        """React to an activity being moved."""
+        self.save_activity_list()
 
     def on_activity_dropped( self, _: Activity.Dropped ):
         """React to an activity being dropped."""
