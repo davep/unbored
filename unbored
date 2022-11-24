@@ -173,7 +173,7 @@ class Activity( Widget ):
         """Delete action; removes this activity."""
         await self.drop_activity()
 
-    def on_mouse_down( self, _ ):
+    def on_mouse_down( self, _ ) -> None:
         """React to the mouse button going down within us."""
         if not self.query( "*:focus-within" ):
             self.query( Button ).first().focus()
