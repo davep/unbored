@@ -132,8 +132,14 @@ class Activity( Widget ):
             f"and has a price score of {self.activity.price} (0 being free)."
         )
         yield Horizontal(
-            Button( Text.from_markup( ":up_arrow:" ), id="up", classes="mover", variant="primary" ),
-            Button( Text.from_markup( ":down_arrow:" ), id="down", classes="mover", variant="primary" ),
+            Button(
+                Text.from_markup( ":up_arrow:" ),
+                id="up", classes="mover", variant="primary"
+            ),
+            Button(
+                Text.from_markup( ":down_arrow:" ),
+                id="down", classes="mover", variant="primary"
+            ),
             *( [ WebLink( link=self.activity.link ) ] if self.activity.link else [] ),
             Button( "Delete", id="delete", variant="error" ),
             classes="buttons"
@@ -313,7 +319,9 @@ class Filters( Vertical ):
         """
         def _value( which: str ) -> float | None:
             try:
-                if ( price := float( self.query_one( f"#{which}_{value}", FloatInput ).value.strip() ) ) <= 0:
+                if ( price := float(
+                        self.query_one( f"#{which}_{value}", FloatInput ).value.strip()
+                ) ) <= 0:
                     price = None
             except ValueError:
                 price = None
