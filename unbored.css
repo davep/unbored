@@ -78,6 +78,12 @@ Activity .timestamp {
     text-align: right;
 }
 
+Activity .mover {
+    width: 5;
+    min-width: 5;
+    margin-right: 1;
+}
+
 NoMatchingActivities {
     layer: warning;
     background: red;

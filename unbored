@@ -32,6 +32,10 @@ from textual.binding    import Binding
 from textual.message    import Message
 
 ##############################################################################
+# Rich imports
+from rich.text import Text
+
+##############################################################################
 class ActivityEncoder( JSONEncoder ):
     """JSON encoder that understands about activities."""
 
@@ -128,6 +132,8 @@ class Activity( Widget ):
             f"and has a price score of {self.activity.price} (0 being free)."
         )
         yield Horizontal(
+            Button( Text.from_markup( ":up_arrow:" ), id="up", classes="mover", variant="primary" ),
+            Button( Text.from_markup( ":down_arrow:" ), id="down", classes="mover", variant="primary" ),
             *( [ WebLink( link=self.activity.link ) ] if self.activity.link else [] ),
             Button( "Delete", id="delete", variant="error" ),
             classes="buttons"
@@ -156,6 +162,10 @@ class Activity( Widget ):
         event.stop()
         if event.button.id == "delete":
             await self.drop_activity()
+        elif event.button.id == "up":
+            self.action_move_up()
+        elif event.button.id == "down":
+            self.action_move_down()
         elif isinstance( event.button, WebLink ):
             event.button.visit()
 
