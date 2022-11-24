@@ -14,7 +14,7 @@ it's easily installable.
 
 - [X] Allow for rearranging items in the list.
 - [ ] Tidy up the small issues with how the filters appear.
-- [ ] Add support for links when they're associated with an activity.
+- [X] Add support for links when they're associated with an activity.
 - [ ] Error checking. LOTS of error checking.
 - [X] Better handle the "nothing matches the filter" situation.
 

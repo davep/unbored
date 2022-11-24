@@ -11,6 +11,7 @@ from typing      import Callable, Any, TypeVar, Final, cast
 from pathlib     import Path
 from json        import dumps, loads, JSONEncoder
 from dataclasses import is_dataclass, asdict
+from webbrowser  import open as open_url
 
 ##############################################################################
 # BoredAPI imports.
@@ -42,6 +43,19 @@ class ActivityEncoder( JSONEncoder ):
         if isinstance( o, ActivityType ):
             return o.value
         return super().default( o )
+
+##############################################################################
+class WebLink( Button ):
+    """A button that links to a URL."""
+
+    def __init__( self, link: str, *args: Any, **kwargs: Any ) -> None:
+        """Initialise the link button."""
+        self._link = link
+        super().__init__( "Link", *args, variant="success", **kwargs )
+
+    def visit( self ) -> None:
+        """Visit the URL for the link."""
+        open_url( self._link )
 
 ##############################################################################
 class Activity( Widget ):
@@ -114,7 +128,11 @@ class Activity( Widget ):
             ) +
             f"and has a price score of {self.activity.price} (0 being free)."
         )
-        yield Horizontal( Button( "Delete", variant="error" ), classes="buttons" )
+        yield Horizontal(
+            *( [ WebLink( link=self.activity.link ) ] if self.activity.link else [] ),
+            Button( "Delete", id="delete", variant="error" ),
+            classes="buttons"
+        )
 
     class Dropped( Message ):
         """A message to indicate that an activity was dropped."""
@@ -137,7 +155,10 @@ class Activity( Widget ):
     async def on_button_pressed( self, event: Button.Pressed ) -> None:
         """React to a button being pressed on the widget."""
         event.stop()
-        await self.drop_activity()
+        if event.button.id == "delete":
+            await self.drop_activity()
+        elif isinstance( event.button, WebLink ):
+            event.button.visit()
 
     async def action_delete( self ) -> None:
         """Delete action; removes this activity."""

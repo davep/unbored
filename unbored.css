@@ -72,6 +72,10 @@ Activity .buttons {
     align: right bottom;
 }
 
+Activity WebLink {
+    margin-right: 1;
+}
+
 Activity .timestamp {
     text-style: italic;
     text-align: right;
