@@ -278,7 +278,7 @@ class TypeChoices( Container ):
         ) for activity in ActivityType )
 
 ##############################################################################
-class NoMatches( Label ):
+class NoMatchingActivities( Label ):
     """The no-matches-found error message."""
 
     def __init__( self ) -> None:
@@ -324,7 +324,7 @@ class Main( Screen ):
         yield Footer()
         self.filters = Filters( classes="hidden" )
         yield self.filters
-        yield NoMatches()
+        yield NoMatchingActivities()
 
     def on_mount( self ) -> None:
         """Set up the screen on mount."""
@@ -401,7 +401,7 @@ class Main( Screen ):
             )
             self.save_activity_list()
         except BoredException:
-            self.query_one( NoMatches ).show()
+            self.query_one( NoMatchingActivities ).show()
 
     def action_close( self ) -> None:
         """Handle the close action."""
