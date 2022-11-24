@@ -83,12 +83,12 @@ class Activity( Widget ):
 
     @property
     def is_first( self ) -> bool:
-        """bool: This is the first activity in the activity list."""
+        """bool: Is this the first activity in the activity list?"""
         return self.parent is not None and self.parent.children[ 0 ] == self
 
     @property
     def is_last( self ) -> bool:
-        """bool: This is th elast activity in the activity list."""
+        """bool: Is this the last activity in the activity list?"""
         return self.parent is not None and self.parent.children[ -1 ] == self
 
     class Moved( Message ):
