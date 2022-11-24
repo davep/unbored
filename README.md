@@ -16,6 +16,6 @@ it's easily installable.
 - [ ] Tidy up the small issues with how the filters appear.
 - [ ] Add support for links when they're associated with an activity.
 - [ ] Error checking. LOTS of error checking.
-- [ ] Better handle the "nothing matches the filter" situation.
+- [X] Better handle the "nothing matches the filter" situation.
 
 [//]: # (README.md ends here)

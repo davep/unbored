@@ -22,7 +22,7 @@ from xdg import xdg_data_home
 
 ##############################################################################
 # Textual imports.
-from textual.app        import App, ComposeResult
+from textual.app        import App, ComposeResult, RenderResult
 from textual.css.query  import NoMatches
 from textual.screen     import Screen
 from textual.widget     import Widget
@@ -278,6 +278,31 @@ class TypeChoices( Container ):
         ) for activity in ActivityType )
 
 ##############################################################################
+class NoMatches( Label ):
+    """The no-matches-found error message."""
+
+    def __init__( self ) -> None:
+        """Initialise the no-matches warning."""
+        super().__init__( classes="hidden" )
+
+    def render( self ) -> RenderResult:
+        """Render the no-match message.
+
+        Returns:
+            RenerResult: The content of the error message.
+        """
+        return "Unable to find any activities that satisfy the current filters."
+
+    def show( self ) -> None:
+        """Show the warning message."""
+        self.remove_class( "hidden" )
+        self.set_timer( 2, self.hide )
+
+    def hide( self ) -> None:
+        """Hide the warning message."""
+        self.add_class( "hidden" )
+
+##############################################################################
 class Main( Screen ):
     """The main application screen."""
 
@@ -299,6 +324,7 @@ class Main( Screen ):
         yield Footer()
         self.filters = Filters( classes="hidden" )
         yield self.filters
+        yield NoMatches()
 
     def on_mount( self ) -> None:
         """Set up the screen on mount."""
@@ -375,10 +401,7 @@ class Main( Screen ):
             )
             self.save_activity_list()
         except BoredException:
-            self.activities.mount(
-                Static( "No activities match the filters; TODO: display this better" ),
-                before=0
-            )
+            self.query_one( NoMatches ).show()
 
     def action_close( self ) -> None:
         """Handle the close action."""

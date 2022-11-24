@@ -1,5 +1,5 @@
 Screen {
-    layers: base filters;
+    layers: base filters warning;
 }
 
 Filters {
@@ -75,6 +75,25 @@ Activity .buttons {
 Activity .timestamp {
     text-style: italic;
     text-align: right;
+}
+
+NoMatches {
+    layer: warning;
+    background: red;
+    color: yellow;
+    text-style: bold;
+    border: solid yellow;
+    padding: 2;
+    width: 40%;
+    dock: top;
+    offset-x: 60%;
+    offset-y: 2;
+    transition: offset 250ms in_out_cubic;
+}
+
+NoMatches.hidden {
+    offset-x: 60%;
+    offset-y: -100%;
 }
 
 /* unbored.css ends here */
