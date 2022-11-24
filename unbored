@@ -121,6 +121,16 @@ class Activity( Widget ):
 
     async def drop_activity( self ):
         """Drop the current activity, letting the parent know we're doing so."""
+        # This seems to work, I can't make this fail, but I'm not 100%
+        # convinced by this. I want the parent to know that I'm being
+        # removed, and I want to remove. I want the parent to know I've been
+        # removed *after* I've been removed because it will want to save the
+        # list and I should be missing from it. That would suggest the
+        # remove comes first then the message send follows, but Textual gets
+        # very upset (for reasons that seem to make sense) if I do that.
+        #
+        # So here I am, sending the message and *then* removing and... it
+        # seems to work and I don't know why if I'm honest.
         await self.emit( self.Dropped( self ) )
         await self.remove()
 
