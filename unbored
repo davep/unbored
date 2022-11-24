@@ -175,7 +175,7 @@ class Activity( Widget ):
 
     def on_mouse_down( self, _ ):
         """React to the mouse button going down within us."""
-        if len( self.query( "*:focus-within" ) ) == 0:
+        if not self.query( "*:focus-within" ):
             self.query( Button ).first().focus()
             self.scroll_visible()
 
