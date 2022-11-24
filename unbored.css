@@ -10,14 +10,11 @@ Filters {
     height: 80%;
     offset-y: 10%;
     transition: offset 250ms in_out_cubic;
+    offset: 0 10%;
 }
 
 Filters.hidden {
     offset: -100% 10%;
-}
-
-Filters:focus-within {
-    offset: 0 10% !important;
 }
 
 Filters Label {

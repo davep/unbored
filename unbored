@@ -24,7 +24,6 @@ from xdg import xdg_data_home
 ##############################################################################
 # Textual imports.
 from textual.app        import App, ComposeResult, RenderResult
-from textual.css.query  import NoMatches
 from textual.screen     import Screen
 from textual.widget     import Widget
 from textual.containers import Container, Horizontal, Vertical
@@ -246,6 +245,10 @@ class Filters( Vertical ):
         yield Label( "Maximum Accessibility:", classes="h2" )
         yield FloatInput( id="max_accessibility", placeholder="Between 0 (most) and 1 (least)" )
 
+    def on_mount( self ) -> None:
+        """Configure the filters once we're composed."""
+        self.hide()
+
     @property
     def participants( self ) -> int | None:
         """int | None: The participants filter value.
@@ -329,6 +332,25 @@ class Filters( Vertical ):
         `None`.
         """
         return self._min_max_value( "accessibility" )
+
+    def show( self ) -> None:
+        """Show the filter options."""
+        for field in self.query( Input ):
+            field.can_focus = True
+        self.query( Input ).first().focus()
+        self.remove_class( "hidden" )
+
+    def hide( self ) -> None:
+        """Hide the filter options."""
+        self.add_class( "hidden" )
+        self.screen.query_one( "#any", Button ).focus()
+        for field in self.query( Input ):
+            field.can_focus = False
+
+    @property
+    def shown( self ) -> bool:
+        """bool: Are the filters currently shown?"""
+        return not self.has_class( "hidden" )
 
 ##############################################################################
 class TypeChoices( Container ):
@@ -472,34 +494,21 @@ class Main( Screen ):
 
     def action_close( self ) -> None:
         """Handle the close action."""
-
-        # There's two ways the filters can appear, either by pulling them up
-        # with the binding, or by tabbing into the offscreen sidebar (I feel
-        # that this should not really be possible -- it feels like it should
-        # be possible to disable a tab-set in bulk, but anyway...). Here I
-        # look to see if focus is within the filters and, if it is, set
-        # focus back on the main button and also ensure that the hidden
-        # class is removed from the filters, before...
-        try:
-            _ = self.query_one( "Filters:focus-within" )
-            self.set_focus( self.query_one( "#any", Button ) )
-            self.filters.remove_class( "hidden" )
-        except NoMatches:
-            pass
-
-        # ...checking if the filters are hidden. If they are...
-        if self.filters.has_class( "hidden" ):
-            # ...escape bails on the app.
-            self.app.exit()
+        self.log.debug( "action_close" )
+        # If the filters are visible...
+        if self.filters.shown:
+            # ...close them.
+            self.filters.hide()
         else:
-            # ...otherwise we toggle the filters.
-            self.action_filters()
+            # ...otherwise close the app.
+            self.app.exit()
 
     def action_filters( self ) -> None:
         """Toggle the display of the filters."""
-        self.filters.toggle_class( "hidden" )
-        if not self.filters.has_class( "hidden" ):
-            self.filters.query( Input ).first().focus()
+        if self.filters.shown:
+            self.filters.hide()
+        else:
+            self.filters.show()
 
     def on_activity_moved( self, _: Activity.Moved ):
         """React to an activity being moved."""
