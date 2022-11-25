@@ -69,16 +69,16 @@ Activity .buttons {
     align: right bottom;
 }
 
-Activity WebLink {
-    margin-right: 1;
-}
-
 Activity .timestamp {
     text-style: italic;
     text-align: right;
 }
 
-Activity #delete {
+Activity Button {
+    margin-left: 1;
+}
+
+Activity #delete, WebLink {
     width: 6;
     min-width: 6;
 }
@@ -86,7 +86,6 @@ Activity #delete {
 Activity .mover {
     width: 5;
     min-width: 5;
-    margin-right: 1;
 }
 
 NoMatchingActivities {

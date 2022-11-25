@@ -54,7 +54,7 @@ class WebLink( Button ):
     def __init__( self, link: str ) -> None:
         """Initialise the link button."""
         self._link = link
-        super().__init__( "Link", variant="success" )
+        super().__init__( Text.from_markup( ":link:" ), variant="primary" )
 
     def visit( self ) -> None:
         """Visit the URL for the link."""
