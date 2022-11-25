@@ -472,7 +472,7 @@ class Main( Screen ):
         self.set_focus( self.query_one( "#any", Button ) )
         self.load_activity_list()
 
-    ACTIVITY_FILE: Final = Path( "unboard.json" )
+    ACTIVITY_FILE: Final = Path( "unbored.json" )
     """Path: The name of the file that the list it saved to."""
 
     @property
@@ -483,7 +483,7 @@ class Main( Screen ):
             As a side effect of access the directory will be crated if it
             doesn't exist.
         """
-        ( save_to := xdg_data_home() / "unboard" ).mkdir( parents=True, exist_ok=True )
+        ( save_to := xdg_data_home() / "unbored" ).mkdir( parents=True, exist_ok=True )
         return save_to / self.ACTIVITY_FILE
 
     def save_activity_list( self ) -> None:

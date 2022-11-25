@@ -1,4 +1,4 @@
-# Unboard
+# Unbored
 
 ## Introduction
 
