@@ -2,7 +2,7 @@
 
 ## Introduction
 
-A simple terminal client for [the Board API](https://www.boredapi.com/).
+A simple terminal client for [the Bored API](https://www.boredapi.com/).
 Written in Python and with [Textual](https://textual.textualize.io/).
 
 ## Warning
