@@ -61,6 +61,18 @@ class WebLink( Button ):
         open_url( self._link )
 
 ##############################################################################
+def focus_within( widget: Widget ) -> bool:
+    """Is focus somewhere within the given widget?
+
+    Args:
+        widget (Widget): The widget to test.
+
+    Returns:
+        bool: `True` if focus is within the widget, otherwise `False`.
+    """
+    return bool( widget.query( "*:focus-within" ) )
+
+##############################################################################
 class Activity( Widget ):
     """A widget that holds and displays a suggested activity."""
 
@@ -181,7 +193,7 @@ class Activity( Widget ):
 
     def on_mouse_down( self, _ ) -> None:
         """React to the mouse button going down within us."""
-        if not self.query( "*:focus-within" ):
+        if not focus_within( self ):
             self.query( Button ).first().focus()
             self.scroll_visible()
 
@@ -277,7 +289,7 @@ class Filters( Vertical ):
     def on_filter_input_blur( self, _: FilterInput.Blur ):
         """Watch and handle focus changes in the inputs."""
         # If focus moved outside of our inputs...
-        if not self.query( "*:focus-within" ):
+        if not focus_within( self ):
             # ...auto-close.
             self.hide()
 
@@ -538,7 +550,7 @@ class Main( Screen ):
         if self.filters.shown:
             # ...close them.
             self.filters.hide()
-        elif self.activities.query( "*:focus-within" ):
+        elif focus_within( self.activities ):
             # Focus is within the activities. Let's draw back up to the
             # types.
             self.set_focus( self.query_one( "#any", Button ) )
