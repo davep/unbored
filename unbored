@@ -186,8 +186,8 @@ class Activity( Widget ):
             self.scroll_visible()
 
 ##############################################################################
-class ValCastCheckInput( Input ):
-    """An input widget that only accepts integer values."""
+class FilterInput( Input ):
+    """A numeric filter input widget."""
 
     CAST: Callable[ [ Any ], Any ] = str
     """Callable[ [ Any ], Any ]: The casting function.
@@ -230,14 +230,21 @@ class ValCastCheckInput( Input ):
         # The value to test is either empty, or valid. Let's accept it.
         return value
 
+    class Blur( Message ):
+        """Message sent to the parent when focus is lost."""
+
+    def on_blur( self ):
+        """Handle losing focus."""
+        self.emit_no_wait( self.Blur( self ) )
+
 ##############################################################################
-class IntInput( ValCastCheckInput ):
+class IntInput( FilterInput ):
     """An input widget that only accepts integer float values."""
 
     CAST = int
 
 ##############################################################################
-class FloatInput( ValCastCheckInput ):
+class FloatInput( FilterInput ):
     """An input widget that only accepts (most) float values."""
 
     CAST = float
@@ -266,6 +273,13 @@ class Filters( Vertical ):
         yield FloatInput( id="min_accessibility", placeholder="Between 0 (most) and 1 (least)" )
         yield Label( "Maximum Accessibility:", classes="h2" )
         yield FloatInput( id="max_accessibility", placeholder="Between 0 (most) and 1 (least)" )
+
+    def on_filter_input_blur( self, _: FilterInput.Blur ):
+        """Watch and handle focus changes in the inputs."""
+        # If focus moved outside of our inputs...
+        if not self.query( "*:focus-within" ):
+            # ...auto-close.
+            self.hide()
 
     def on_mount( self ) -> None:
         """Configure the filters once we're composed."""
