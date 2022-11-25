@@ -153,7 +153,7 @@ class Activity( Widget ):
                 id="down", classes="mover", variant="primary"
             ),
             *( [ WebLink( link=self.activity.link ) ] if self.activity.link else [] ),
-            Button( "Delete", id="delete", variant="error" ),
+            Button( Text.from_markup( ":wastebasket:" ), id="delete", variant="error" ),
             classes="buttons"
         )
 

@@ -78,6 +78,11 @@ Activity .timestamp {
     text-align: right;
 }
 
+Activity #delete {
+    width: 6;
+    min-width: 6;
+}
+
 Activity .mover {
     width: 5;
     min-width: 5;
