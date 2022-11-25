@@ -55,6 +55,8 @@ class ActivityEncoder( JSONEncoder ):
             return asdict( o )
         if isinstance( o, ActivityType ):
             return o.value
+        if isinstance( o, datetime ):
+            return o.isoformat()
         return super().default( o )
 
 ##############################################################################
@@ -94,15 +96,35 @@ class Activity( Widget ):
     ]
     """Bindings for the widget."""
 
-    def __init__( self, activity: BoredActivity ):
+    def __init__( self, activity: BoredActivity, chosen_at: datetime | None = None ):
         """Initialise the activity widget.
 
         Args:
             activity (BoredActivity): The activity to display.
+            chosen_at (datetime | None, optional): the time the activity was chosen.
         """
         super().__init__()
         self.activity  = activity
-        self.chosen_at = datetime.now()
+        self.chosen_at = datetime.now() if chosen_at is None else chosen_at
+
+    @property
+    def as_dict( self ) -> dict[ str, Any ]:
+        """dict[ str, Any]: The activity as a dictionary."""
+        return asdict( self.activity ) | { "chosen_at": self.chosen_at }
+
+    @staticmethod
+    def from_dict( activity: dict[ str, Any ] ) -> "Activity":
+        """Create a new activity from the given dictionary.
+
+        Args:
+            activity (dict[ str, Any]): The dictionary to load data from.
+
+        Returns:
+            Activity: An activity widget created from the data.
+        """
+        chosen_at = datetime.fromisoformat( activity[ "chosen_at" ] )
+        del activity[ "chosen_at" ]
+        return Activity( BoredActivity( **activity ), chosen_at )
 
     @property
     def is_first( self ) -> bool:
@@ -516,7 +538,7 @@ class Main( Screen ):
     def save_activity_list( self ) -> None:
         """Save the activity list to disk."""
         self.data_file.write_text( dumps(
-            [ activity.activity for activity in self.activities.query( Activity ) ],
+            [ activity.as_dict for activity in self.activities.query( Activity ) ],
             cls=ActivityEncoder, indent=4
         ) )
 
@@ -526,7 +548,7 @@ class Main( Screen ):
             to_mount: list[ Activity ] = []
             for activity in loads( self.data_file.read_text() ):
                 activity[ "type" ] = ActivityType( activity[ "type" ] )
-                to_mount.append( Activity( BoredActivity( **activity ) ) )
+                to_mount.append( Activity.from_dict( activity ) )
             if to_mount:
                 self.activities.mount( *to_mount )
 
