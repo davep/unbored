@@ -590,7 +590,7 @@ class Unbored( App[ None ] ):
     CSS_PATH = "unbored.css"
     """The name of the CSS file for the application."""
 
-    TITLE = "Unbored"
+    TITLE = f"Unbored - v{__version__}"
     """The title of the application."""
 
     SCREENS = {
