@@ -7,17 +7,19 @@ Written in Python and with [Textual](https://textual.textualize.io/), using
 [`async-bored-api`](https://github.com/Damego/async-bored-api) as the API
 wrapper.
 
+The idea is, if you're feeling bored and need some inspiration for what to
+do with your day, fire this up and select one or more activities. Your
+selections are saved so, if you wish, you can treat the application almost
+like a TODO list; for when you're bored.
+
 ## Warning
 
-Still a bit of a work-in-progress. I do aim to finish tidying this up so
-it's easily installable.
+This is still a bit of a work-in-progress, hence the low version number. The
+main things that need addressing are listed below.
 
 ## TODO
 
-- [X] Allow for rearranging items in the list.
-- [X] Tidy up the small issues with how the filters appear.
-- [X] Add support for links when they're associated with an activity.
 - [ ] Error checking. LOTS of error checking.
-- [X] Better handle the "nothing matches the filter" situation.
+- [ ] Test on Windows.
 
 [//]: # (README.md ends here)
