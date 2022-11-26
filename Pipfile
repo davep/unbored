@@ -11,6 +11,7 @@ xdg = "*"
 [dev-packages]
 pylint = "*"
 mypy = "*"
+twine = "*"
 
 [requires]
 python_version = "3.11"
