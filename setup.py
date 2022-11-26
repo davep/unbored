@@ -49,7 +49,7 @@ setup(
     include_package_data          = True,
     install_requires              = [ "textual", "bored-api", "xdg" ],
     python_requires               = ">=3.8",
-    keywords                      = "library dbase clipper norton guide reader converter html",
+    keywords                      = "todo fun inspiration api-client terminal textual",
     entry_points                  = {
         "console_scripts": "unbored=unbored.unbored:run"
     },
