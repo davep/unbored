@@ -14,6 +14,14 @@ do with your day, fire this up and select one or more activities. Your
 selections are saved so, if you wish, you can treat the application almost
 like a TODO list; for when you're bored.
 
+## Installation
+
+Unbored can be installed using [`pipx`](https://pypa.github.io/pipx/):
+
+```sh
+$ pipx install unbored
+```
+
 ## Warning
 
 This is still a bit of a work-in-progress, hence the low version number. The
