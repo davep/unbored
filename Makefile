@@ -61,10 +61,36 @@ stricttypecheck:	        # Perform a strict static type checks with mypy
 checkall: lint stricttypecheck # Check all the things
 
 ##############################################################################
+# Package/publish.
+.PHONY: package
+package:			# Package the library
+	$(python) setup.py bdist_wheel
+
+.PHONY: spackage
+spackage:			# Create a source package for the library
+	$(python) setup.py sdist
+
+.PHONY: packagecheck
+packagecheck: package		# Check the packaging.
+	$(twine) check dist/*
+
+.PHONY: testdist
+testdist: packagecheck		# Perform a test distribution
+	$(twine) upload --skip-existing --repository testpypi dist/*
+
+.PHONY: dist
+dist: packagecheck		# Upload to pypi
+	$(twine) upload --skip-existing dist/*
+
+##############################################################################
 # Utility.
 .PHONY: repl
 repl:				# Start a Python REPL
 	$(python)
+
+.PHONY: clean
+clean:				# Clean the build directories
+	rm -rf build dist $(library).egg-info
 
 .PHONY: help
 help:				# Display this help
