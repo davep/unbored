@@ -111,7 +111,7 @@ class Main( Screen ):
 
         # We're going to build up a collection of options to dictate the
         # choice made.
-        options: dict[ str, int | float | str ] = {}
+        options: dict[ str, Any ] = {}
 
         # If the button wasn't the any button, it'll have been one of the
         # activity type buttons. The filter value is in the button ID.
