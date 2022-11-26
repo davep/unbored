@@ -25,4 +25,8 @@ class TypeChoices( Container ):
             activity.value.capitalize(), id=activity.value
         ) for activity in ActivityType )
 
+    def become_focused( self ) -> None:
+        """Set focus within us."""
+        self.query_one( "#any", Button ).focus()
+
 ### type_choices.py ends here
