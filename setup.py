@@ -48,7 +48,7 @@ setup(
     package_data                  = { "unbored": [ "py.typed", "unbored.css" ] },
     include_package_data          = True,
     install_requires              = [ "textual", "bored-api", "xdg" ],
-    python_requires               = ">=3.8",
+    python_requires               = ">=3.10",
     keywords                      = "todo fun inspiration api-client terminal textual",
     entry_points                  = {
         "console_scripts": "unbored=unbored.unbored:run"
