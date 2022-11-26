@@ -3,7 +3,9 @@
 ## Introduction
 
 A simple terminal client for [the Bored API](https://www.boredapi.com/).
-Written in Python and with [Textual](https://textual.textualize.io/).
+Written in Python and with [Textual](https://textual.textualize.io/), using
+[`async-bored-api`](https://github.com/Damego/async-bored-api) as the API
+wrapper.
 
 ## Warning
 
