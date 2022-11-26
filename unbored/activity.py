@@ -19,6 +19,7 @@ from textual.widget     import Widget
 from textual.widgets    import Static, Button
 from textual.containers import Horizontal
 from textual.message    import Message
+from textual.events     import MouseDown
 
 ##############################################################################
 # Rich imports.
@@ -181,7 +182,7 @@ class Activity( Widget ):
         """Delete action; removes this activity."""
         await self.drop_activity()
 
-    def on_mouse_down( self, _ ) -> None:
+    def on_mouse_down( self, _: MouseDown ) -> None:
         """React to the mouse button going down within us."""
         if not focus_within( self ):
             self.query( Button ).first().focus()

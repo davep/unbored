@@ -43,7 +43,7 @@ class Filters( Vertical ):
         yield Label( "Maximum Accessibility:", classes="h2" )
         yield FloatInput( id="max_accessibility", placeholder="Between 0 (most) and 1 (least)" )
 
-    def on_filter_input_blur( self, _: FilterInput.Blur ):
+    def on_filter_input_blur( self, _: FilterInput.Blur ) -> None:
         """Watch and handle focus changes in the inputs."""
         # If focus moved outside of our inputs...
         if not focus_within( self ):
@@ -143,7 +143,7 @@ class Filters( Vertical ):
         """
         return self._min_max_value( "accessibility" )
 
-    def action_close( self ):
+    def action_close( self ) -> None:
         """Close action for the filters."""
         self.hide()
 

@@ -161,7 +161,7 @@ class Main( Screen ):
         """React to an activity being dropped."""
         self.save_activity_list()
 
-    def on_activity_deselect( self ):
+    def on_activity_deselect( self ) -> None:
         """Handle an activity wanting to give up focus."""
         self.set_focus( self.query_one( "#any", Button ) )
 

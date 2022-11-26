@@ -57,7 +57,7 @@ class FilterInput( Input ):
     class Blur( Message ):
         """Message sent to the parent when focus is lost."""
 
-    def on_blur( self ):
+    def on_blur( self ) -> None:
         """Handle losing focus."""
         self.emit_no_wait( self.Blur( self ) )
 
