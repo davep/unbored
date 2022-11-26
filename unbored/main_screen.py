@@ -50,6 +50,7 @@ class Main( Screen ):
     """The main application screen."""
 
     BINDINGS = [
+        Binding( "d", "toggle_darkness", "Light/Dark Mode" ),
         Binding( "f", "filters", "Filters" ),
         Binding( "escape", "quit", "Close" )
     ]
@@ -152,6 +153,10 @@ class Main( Screen ):
             self.filters.hide()
         else:
             self.filters.show()
+
+    def action_toggle_darkness( self ) -> None:
+        """Toggle dark mode for the application."""
+        self.app.dark = not self.app.dark
 
     def on_activity_moved( self, _: Activity.Moved ) -> None:
         """React to an activity being moved."""
