@@ -16,8 +16,11 @@ class Unbored( App[ None ] ):
     CSS_PATH = "unbored.css"
     """The name of the CSS file for the application."""
 
-    TITLE = f"Unbored - v{__version__}"
+    TITLE = "Unbored"
     """The title of the application."""
+
+    SUB_TITLE = f"v{__version__}"
+    """The sub-title of the application."""
 
     SCREENS = {
         "main": Main
