@@ -2,11 +2,11 @@
 
 ##############################################################################
 # Local imports.
-from .app import Unbored
+from .app import run
 
 ##############################################################################
 # Main entry code.
 if __name__ == "__main__":
-    Unbored().run()
+    run()
 
 ### __main__.py ends here

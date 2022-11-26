@@ -28,4 +28,9 @@ class Unbored( App[ None ] ):
         """Set up the application on startup."""
         self.push_screen( "main" )
 
+##############################################################################
+def run() -> None:
+    """Run the application."""
+    Unbored().run()
+
 ### app.py ends here
