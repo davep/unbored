@@ -1,5 +1,7 @@
 # Unbored
 
+[![PyPI version](https://badge.fury.io/py/unbored.svg)](https://badge.fury.io/py/unbored)
+
 ## Introduction
 
 A simple terminal client for [the Bored API](https://www.boredapi.com/).
