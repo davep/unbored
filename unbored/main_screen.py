@@ -63,8 +63,9 @@ class Main( Screen ):
             ComposeResult: The layout for the main screen.
         """
         yield Header()
+        self.choices    = TypeChoices()
         self.activities = Vertical( id="activities" )
-        yield Vertical( TypeChoices(), self.activities )
+        yield Vertical( self.choices, self.activities )
         yield Footer()
         self.filters = Filters( classes="hidden" )
         yield self.filters
@@ -73,7 +74,7 @@ class Main( Screen ):
     def on_mount( self ) -> None:
         """Set up the screen on mount."""
         self.api = BoredClient()
-        self.set_focus( self.query_one( "#any", Button ) )
+        self.choices.become_focused()
         self.load_activity_list()
 
     ACTIVITY_FILE: Final = Path( "unbored.json" )
@@ -168,10 +169,10 @@ class Main( Screen ):
 
     def on_activity_deselect( self ) -> None:
         """Handle an activity wanting to give up focus."""
-        self.set_focus( self.query_one( "#any", Button ) )
+        self.choices.become_focused()
 
     def on_filters_hidden( self ) -> None:
         """Handle the filters being hidden."""
-        self.set_focus( self.query_one( "#any", Button ) )
+        self.choices.become_focused()
 
 ### main_screen.py ends here
