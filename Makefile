@@ -5,6 +5,7 @@ run    := pipenv run
 python := $(run) python
 lint   := $(run) pylint
 mypy   := $(run) mypy
+twine  := $(run) twine
 
 ##############################################################################
 # Run the plotter.
