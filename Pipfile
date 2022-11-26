@@ -12,6 +12,7 @@ xdg = "*"
 pylint = "*"
 mypy = "*"
 twine = "*"
+vermin = "*"
 
 [requires]
 python_version = "3.11"
