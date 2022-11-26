@@ -51,7 +51,7 @@ setup(
     python_requires               = ">=3.10",
     keywords                      = "todo fun inspiration api-client terminal textual",
     entry_points                  = {
-        "console_scripts": "unbored=unbored.unbored:run"
+        "console_scripts": "unbored=unbored:run"
     },
     license                       = (
         "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)"
