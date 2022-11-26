@@ -50,7 +50,7 @@ class Main( Screen ):
     """The main application screen."""
 
     BINDINGS = [
-        Binding( "d", "toggle_darkness", "Light/Dark Mode" ),
+        Binding( "m", "toggle_darkness", "Light/Dark Mode" ),
         Binding( "f", "filters", "Filters" ),
         Binding( "escape", "quit", "Close" )
     ]
