@@ -10,11 +10,11 @@ mypy   := $(run) mypy
 # Run the plotter.
 .PHONY: run
 run:
-	$(python) $(app)
+	$(python) -m $(app)
 
 .PHONY: debug
 debug:
-	$(run) textual run --dev $(app)
+	TEXTUAL=devtools make
 
 .PHONY: console
 console:
