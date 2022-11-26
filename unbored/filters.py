@@ -10,6 +10,7 @@ from textual.app        import ComposeResult
 from textual.binding    import Binding
 from textual.widgets    import Label, Button
 from textual.containers import Vertical
+from textual.message    import Message
 
 ##############################################################################
 # Local imports.
@@ -147,19 +148,26 @@ class Filters( Vertical ):
         """Close action for the filters."""
         self.hide()
 
+    class Shown( Message ):
+        """Message sent out when the filters are shown."""
+
     def show( self ) -> None:
         """Show the filter options."""
         for field in self.query( FilterInput ):
             field.can_focus = True
         self.query( FilterInput ).first().focus()
         self.remove_class( "hidden" )
+        self.emit_no_wait( self.Shown( self ) )
+
+    class Hidden( Message ):
+        """Message sent out when the filters are hidden."""
 
     def hide( self ) -> None:
         """Hide the filter options."""
         self.add_class( "hidden" )
-        self.screen.query_one( "#any", Button ).focus()
         for field in self.query( FilterInput ):
             field.can_focus = False
+        self.emit_no_wait( self.Hidden( self ) )
 
     @property
     def shown( self ) -> bool:

@@ -170,4 +170,8 @@ class Main( Screen ):
         """Handle an activity wanting to give up focus."""
         self.set_focus( self.query_one( "#any", Button ) )
 
+    def on_filters_hidden( self ) -> None:
+        """Handle the filters being hidden."""
+        self.set_focus( self.query_one( "#any", Button ) )
+
 ### main_screen.py ends here
