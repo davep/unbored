@@ -8,7 +8,7 @@ from typing import TypeVar
 # Textual imports.
 from textual.app        import ComposeResult
 from textual.binding    import Binding
-from textual.widgets    import Label, Button
+from textual.widgets    import Label
 from textual.containers import Vertical
 from textual.message    import Message
 
