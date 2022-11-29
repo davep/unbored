@@ -11,6 +11,7 @@ from textual.binding    import Binding
 from textual.widgets    import Label
 from textual.containers import Vertical
 from textual.message    import Message
+from textual.events     import DescendantBlur
 
 ##############################################################################
 # Local imports.
@@ -44,7 +45,7 @@ class Filters( Vertical ):
         yield Label( "Maximum Accessibility:", classes="h2" )
         yield FloatInput( id="max_accessibility", placeholder="Between 0 (most) and 1 (least)" )
 
-    def on_filter_input_blur( self, _: FilterInput.Blur ) -> None:
+    def on_descendant_blur( self, _: DescendantBlur ) -> None:
         """Watch and handle focus changes in the inputs."""
         # If focus moved outside of our inputs...
         if not focus_within( self ):

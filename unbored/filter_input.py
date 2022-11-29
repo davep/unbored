@@ -7,7 +7,6 @@ from typing import Any, Callable
 ##############################################################################
 # Textual imports.
 from textual.widgets import Input
-from textual.message import Message
 
 ##############################################################################
 class FilterInput( Input ):
@@ -53,13 +52,6 @@ class FilterInput( Input ):
                 return self.value
         # The value to test is either empty, or valid. Let's accept it.
         return value
-
-    class Blur( Message ):
-        """Message sent to the parent when focus is lost."""
-
-    def on_blur( self ) -> None:
-        """Handle losing focus."""
-        self.emit_no_wait( self.Blur( self ) )
 
 ##############################################################################
 class IntInput( FilterInput ):
