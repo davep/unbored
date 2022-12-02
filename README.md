@@ -30,6 +30,6 @@ main things that need addressing are listed below.
 ## TODO
 
 - [ ] Error checking. LOTS of error checking.
-- [ ] Test on Windows.
+- [X] Test on Windows.
 
 [//]: # (README.md ends here)
