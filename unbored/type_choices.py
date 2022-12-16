@@ -7,11 +7,11 @@ from bored_api import ActivityType
 ##############################################################################
 # Textual imports.
 from textual.app        import ComposeResult
-from textual.containers import Container
+from textual.containers import Grid
 from textual.widgets    import Button
 
 ##############################################################################
-class TypeChoices( Container ):
+class TypeChoices( Grid ):
     """Container widget for the type choices buttons."""
 
     def compose( self ) -> ComposeResult:

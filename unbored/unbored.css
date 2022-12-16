@@ -33,7 +33,6 @@ Filters Label.h2 {
 
 TypeChoices {
     height: 6;
-    layout: grid;
     grid-size: 5;
     grid-gutter: 0;
 }
