@@ -19,6 +19,7 @@ Filters.hidden {
 
 Filters Label {
     text-style: bold;
+    width: 100%;
 }
 
 Filters Label.h1 {
