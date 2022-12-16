@@ -62,14 +62,15 @@ class Main( Screen ):
         Returns:
             ComposeResult: The layout for the main screen.
         """
-        yield Header()
+
         self.choices    = TypeChoices()
         self.activities = Vertical( id="activities" )
-        yield Vertical( self.choices, self.activities )
+        self.filters    = Filters( classes="hidden" )
+        self.no_matches = NoMatchingActivities()
+
+        yield Header()
+        yield Vertical( self.choices, self.activities, self.filters, self.no_matches )
         yield Footer()
-        self.filters = Filters( classes="hidden" )
-        yield self.filters
-        yield NoMatchingActivities()
 
     def on_mount( self ) -> None:
         """Set up the screen on mount."""
