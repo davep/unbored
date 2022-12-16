@@ -9,7 +9,7 @@ Filters {
     border: round $primary;
     height: 80%;
     transition: offset 250ms in_out_cubic;
-    offset: 0 10%;
+    offset: 50% 10%;
 }
 
 Filters.hidden {
