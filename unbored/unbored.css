@@ -8,7 +8,6 @@ Filters {
     width: 50%;
     border: round $primary;
     height: 80%;
-    offset-y: 10%;
     transition: offset 250ms in_out_cubic;
     offset: 0 10%;
 }
