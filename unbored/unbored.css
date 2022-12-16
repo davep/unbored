@@ -95,7 +95,6 @@ NoMatchingActivities {
     border: solid yellow;
     padding: 2;
     width: 40%;
-    dock: top;
     offset: 60% 100%;
     transition: offset 250ms in_out_cubic;
 }
