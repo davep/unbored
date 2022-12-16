@@ -3,10 +3,10 @@ Screen {
 }
 
 Filters {
-    background: $panel;
+    background: $panel-lighten-1;
     layer: filters;
     width: 50%;
-    border: round $primary;
+    border: round $primary-lighten-1;
     height: 80%;
     transition: offset 250ms in_out_cubic;
     offset: 50% 10%;
