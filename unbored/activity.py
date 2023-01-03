@@ -48,8 +48,8 @@ class Activity( Widget ):
 
     BINDINGS = [
         Binding( "d", "delete", "Delete" ),
-        Binding( "up", "move_up", "Move Up" ),
-        Binding( "down", "move_down", "Move Down" ),
+        Binding( "ctrl+up", "move_up", "Move Up" ),
+        Binding( "ctrl+down", "move_down", "Move Down" ),
         Binding( "escape", "deselect", "Switch to Types" )
     ]
     """Bindings for the widget."""
