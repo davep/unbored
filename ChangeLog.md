@@ -2,7 +2,7 @@
 
 ## v0.3.0
 
-**Released: WiP**
+**Released: 2023-01-03**
 
 - Updated Textual to v0.9.1
 - Changed the move up/down keys for rearranging the activities to Ctrl+Up
