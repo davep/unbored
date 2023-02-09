@@ -105,7 +105,7 @@ class Activity( Widget ):
                 self, before=parent.children.index( self ) - 1
             )
             self.emit_no_wait( self.Moved( self ) )
-            self.scroll_visible( top=True )
+            self.scroll_visible()
 
     def action_move_down( self ) -> None:
         """Move this activity up down place in the list."""
@@ -114,7 +114,7 @@ class Activity( Widget ):
                 self, after=self.parent.children.index( self ) + 1
             )
             self.emit_no_wait( self.Moved( self ) )
-            self.scroll_visible( top=True )
+            self.scroll_visible()
 
     def compose( self ) -> ComposeResult:
         """Compose the activity.
