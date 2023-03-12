@@ -1,5 +1,13 @@
 # Unbored ChangeLog
 
+## v0.4.0
+
+**Released: 2023-02-09**
+
+- Updated Textual to v0.10.1
+- Improved the result of updating the activity list when moving an activity
+  up or down the list.
+
 ## v0.3.0
 
 **Released: 2023-01-03**
