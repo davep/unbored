@@ -142,7 +142,7 @@ class Main( Screen ):
 
         # Get the new activity.
         try:
-            self.activities.mount(
+            await self.activities.mount(
                 Activity( await self.api.get( **options ) ), before=0
             )
             self.save_activity_list()
