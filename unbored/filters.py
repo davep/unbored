@@ -158,7 +158,7 @@ class Filters( Vertical ):
             field.can_focus = True
         self.query( FilterInput ).first().focus()
         self.remove_class( "hidden" )
-        self.emit_no_wait( self.Shown( self ) )
+        self.post_message( self.Shown() )
 
     class Hidden( Message ):
         """Message sent out when the filters are hidden."""
@@ -168,7 +168,7 @@ class Filters( Vertical ):
         self.add_class( "hidden" )
         for field in self.query( FilterInput ):
             field.can_focus = False
-        self.emit_no_wait( self.Hidden( self ) )
+        self.post_message( self.Hidden() )
 
     @property
     def shown( self ) -> bool:

@@ -104,7 +104,7 @@ class Activity( Widget ):
             parent.move_child(
                 self, before=parent.children.index( self ) - 1
             )
-            self.emit_no_wait( self.Moved( self ) )
+            self.post_message( self.Moved() )
             self.scroll_visible()
 
     def action_move_down( self ) -> None:
@@ -113,7 +113,7 @@ class Activity( Widget ):
             cast( Widget, self.parent ).move_child(
                 self, after=self.parent.children.index( self ) + 1
             )
-            self.emit_no_wait( self.Moved( self ) )
+            self.post_message( self.Moved() )
             self.scroll_visible()
 
     def compose( self ) -> ComposeResult:
@@ -151,26 +151,20 @@ class Activity( Widget ):
     class Dropped( Message ):
         """A message to indicate that an activity was dropped."""
 
-    async def drop_activity( self ) -> None:
+    def drop_activity( self ) -> None:
         """Drop the current activity, letting the parent know we're doing so."""
-        # This seems to work, I can't make this fail, but I'm not 100%
-        # convinced by this. I want the parent to know that I'm being
-        # removed, and I want to remove. I want the parent to know I've been
-        # removed *after* I've been removed because it will want to save the
-        # list and I should be missing from it. That would suggest the
-        # remove comes first then the message send follows, but Textual gets
-        # very upset (for reasons that seem to make sense) if I do that.
+        self.post_message( self.Dropped() )
+        # Note that I delay the self-remove because, right now anyway, if I
+        # do this without delaying it the above message won't make it out.
         #
-        # So here I am, sending the message and *then* removing and... it
-        # seems to work and I don't know why if I'm honest.
-        await self.emit( self.Dropped( self ) )
-        await self.remove()
+        # See https://github.com/Textualize/textual/issues/2017
+        self.call_after_refresh( self.remove )
 
     async def on_button_pressed( self, event: Button.Pressed ) -> None:
         """React to a button being pressed on the widget."""
         event.stop()
         if event.button.id == "delete":
-            await self.drop_activity()
+            self.drop_activity()
         elif event.button.id == "up":
             self.action_move_up()
         elif event.button.id == "down":
@@ -180,7 +174,7 @@ class Activity( Widget ):
 
     async def action_delete( self ) -> None:
         """Delete action; removes this activity."""
-        await self.drop_activity()
+        self.drop_activity()
 
     def on_mouse_down( self, _: MouseDown ) -> None:
         """React to the mouse button going down within us."""
@@ -193,6 +187,6 @@ class Activity( Widget ):
 
     def action_deselect( self ) -> None:
         """Message the parent that we want to give up focus."""
-        self.emit_no_wait( self.Deselect( self ) )
+        self.post_message( self.Deselect() )
 
 ### activity.py ends here
