@@ -1,5 +1,11 @@
 # Unbored ChangeLog
 
+## v0.5.0
+
+**Released: 2023-03-12**
+
+- Updated Textual to v0.14.0
+
 ## v0.4.0
 
 **Released: 2023-02-09**
