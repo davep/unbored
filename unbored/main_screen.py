@@ -63,6 +63,7 @@ class Main( Screen ):
             The layout for the main screen.
         """
 
+        # pylint:disable=attribute-defined-outside-init
         self.choices    = TypeChoices()
         self.activities = VerticalScroll( id="activities" )
         self.filters    = Filters( classes="hidden" )
