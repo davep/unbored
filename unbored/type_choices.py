@@ -18,7 +18,7 @@ class TypeChoices( Grid ):
         """Compose the type choices button collection.
 
         Returns:
-            ComposeResult: The layout for the type choice buttons.
+            The layout for the type choice buttons.
         """
         yield Button( "Any", id="any" )
         yield from ( Button(
