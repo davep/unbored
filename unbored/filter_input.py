@@ -13,7 +13,7 @@ class FilterInput( Input ):
     """A numeric filter input widget."""
 
     CAST: Callable[ [ Any ], Any ] = str
-    """Callable[ [ Any ], Any ]: The casting function.
+    """The casting function.
 
     Note: It is expected that a `ValueError` will be raised if there is a
     problem with the value.
@@ -29,10 +29,10 @@ class FilterInput( Input ):
         """Validate the input.
 
         Args:
-            value (str): The value to validate.
+            value: The value to validate.
 
         Returns:
-            str: The acceptable value.
+            The acceptable value.
         """
         # If the input field isn't empty...
         if value.strip():
