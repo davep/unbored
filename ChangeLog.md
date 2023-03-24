@@ -1,5 +1,12 @@
 # Unbored ChangeLog
 
+## v0.6.0
+
+**Released: WiP**
+
+- Updated Textual to v0.16.0
+- Changed a couple of `Vertical` containers to `VerticalScroll`.
+
 ## v0.5.0
 
 **Released: 2023-03-12**
