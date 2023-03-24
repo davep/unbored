@@ -134,19 +134,21 @@ class Activity( Widget ):
             ) +
             f"and has a price score of {self.activity.price} (0 being free)."
         )
-        yield Horizontal(
-            Button(
+        with Horizontal( classes="buttons" ):
+            yield Button(
                 Text.from_markup( ":up_arrow:" ),
                 id="up", classes="mover", variant="primary"
-            ),
-            Button(
+            )
+            yield Button(
                 Text.from_markup( ":down_arrow:" ),
                 id="down", classes="mover", variant="primary"
-            ),
-            *( [ WebLink( link=self.activity.link ) ] if self.activity.link else [] ),
-            Button( Text.from_markup( ":cross_mark:" ), id="delete", variant="primary" ),
-            classes="buttons"
-        )
+            )
+            if self.activity.link:
+                yield WebLink( link=self.activity.link )
+            yield Button(
+                Text.from_markup( ":cross_mark:" ),
+                id="delete", variant="primary"
+            )
 
     class Dropped( Message ):
         """A message to indicate that an activity was dropped."""
