@@ -31,7 +31,7 @@ class Filters( Vertical ):
         """Compose the filter panel.
 
         Returns:
-            ComposeResult: The layout for the filters panel.
+            The layout for the filters panel.
         """
         yield Label( "Filters", classes="h1" )
         yield Label( "Participants:", classes="h2" )
@@ -58,7 +58,7 @@ class Filters( Vertical ):
 
     @property
     def participants( self ) -> int | None:
-        """int | None: The participants filter value.
+        """The participants filter value.
 
         If the user appears to have provided a value, it will be an integer.
         If there is no given value or it doesn't look this will be `None`.
@@ -78,12 +78,12 @@ class Filters( Vertical ):
         """Clamp a value.
 
         Args:
-            value (TClamp | None): The value to clamp.
-            min_val (TClamp): The minimum value.
-            max_val (TClamp): The maximum value.
+            value: The value to clamp.
+            min_val: The minimum value.
+            max_val: The maximum value.
 
         Returns:
-            TClamp | None: The clamped value.
+            The clamped value.
 
         Note:
             If the value is `None`, then `None` will be returned.
@@ -100,10 +100,10 @@ class Filters( Vertical ):
         """Get a min/max float value from the filters.
 
         Args:
-            value (str): The name of the filter value to get.
+            value: The name of the filter value to get.
 
         Returns:
-            tuple[ float | None, float | None ]: The filter value.
+            The filter value.
         """
         def _value( which: str ) -> float | None:
             try:
@@ -128,7 +128,7 @@ class Filters( Vertical ):
 
     @property
     def price( self ) -> tuple[ float | None, float | None ]:
-        """tuple[ float | None, float | None ]: The price filter.
+        """The price filter.
 
         A tuple of minimum and maximum price filters. If no filter value was
         provided for either of the values then they will be `None`.
@@ -137,7 +137,7 @@ class Filters( Vertical ):
 
     @property
     def accessibility( self ) -> tuple[ float | None, float | None ]:
-        """tuple[ float | None, float | None ]: The accessibility filter.
+        """The accessibility filter.
 
         A tuple of minimum and maximum accessibility filters. If no filter
         value was provided for either of the values then they will be
@@ -172,7 +172,7 @@ class Filters( Vertical ):
 
     @property
     def shown( self ) -> bool:
-        """bool: Are the filters currently shown?"""
+        """Are the filters currently shown?"""
         return not self.has_class( "hidden" )
 
 ### filters.py ends here
