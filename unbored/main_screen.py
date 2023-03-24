@@ -22,7 +22,7 @@ from textual.app        import ComposeResult
 from textual.screen     import Screen
 from textual.binding    import Binding
 from textual.widgets    import Header, Footer, Button
-from textual.containers import Vertical
+from textual.containers import Vertical, VerticalScroll
 
 ##############################################################################
 # Local imports.
@@ -64,7 +64,7 @@ class Main( Screen ):
         """
 
         self.choices    = TypeChoices()
-        self.activities = Vertical( id="activities" )
+        self.activities = VerticalScroll( id="activities" )
         self.filters    = Filters( classes="hidden" )
         self.no_matches = NoMatchingActivities()
 
