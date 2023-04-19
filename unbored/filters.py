@@ -9,7 +9,7 @@ from typing import TypeVar
 from textual.app        import ComposeResult
 from textual.binding    import Binding
 from textual.widgets    import Label
-from textual.containers import Vertical
+from textual.containers import VerticalScroll
 from textual.message    import Message
 from textual.events     import DescendantBlur
 
@@ -19,7 +19,7 @@ from .focus_within import focus_within
 from .filter_input import FilterInput, IntInput, FloatInput
 
 ##############################################################################
-class Filters( Vertical ):
+class Filters( VerticalScroll ):
     """Filtering sidebar."""
 
     BINDINGS = [
