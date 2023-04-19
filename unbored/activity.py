@@ -58,8 +58,8 @@ class Activity( Widget ):
         """Initialise the activity widget.
 
         Args:
-            activity (BoredActivity): The activity to display.
-            chosen_at (datetime | None, optional): the time the activity was chosen.
+            activity: The activity to display.
+            chosen_at: the time the activity was chosen.
         """
         super().__init__()
         self.activity  = activity
@@ -67,7 +67,7 @@ class Activity( Widget ):
 
     @property
     def as_dict( self ) -> dict[ str, Any ]:
-        """dict[ str, Any]: The activity as a dictionary."""
+        """The activity as a dictionary."""
         return asdict( self.activity ) | { "chosen_at": self.chosen_at }
 
     @staticmethod
@@ -75,10 +75,10 @@ class Activity( Widget ):
         """Create a new activity from the given dictionary.
 
         Args:
-            activity (dict[ str, Any]): The dictionary to load data from.
+            activity: The dictionary to load data from.
 
         Returns:
-            Activity: An activity widget created from the data.
+            An activity widget created from the data.
         """
         chosen_at = datetime.fromisoformat( activity[ "chosen_at" ] )
         del activity[ "chosen_at" ]
@@ -86,12 +86,12 @@ class Activity( Widget ):
 
     @property
     def is_first( self ) -> bool:
-        """bool: Is this the first activity in the activity list?"""
+        """Is this the first activity in the activity list?"""
         return self.parent is not None and self.parent.children[ 0 ] == self
 
     @property
     def is_last( self ) -> bool:
-        """bool: Is this the last activity in the activity list?"""
+        """Is this the last activity in the activity list?"""
         return self.parent is not None and self.parent.children[ -1 ] == self
 
     class Moved( Message ):
@@ -120,7 +120,7 @@ class Activity( Widget ):
         """Compose the activity.
 
         Returns:
-            ComposeResult: The layout for the main screen.
+            The layout for the main screen.
         """
         yield Static( self.chosen_at.strftime( '%c' ), classes="timestamp" )
         yield Static(
@@ -134,19 +134,21 @@ class Activity( Widget ):
             ) +
             f"and has a price score of {self.activity.price} (0 being free)."
         )
-        yield Horizontal(
-            Button(
+        with Horizontal( classes="buttons" ):
+            yield Button(
                 Text.from_markup( ":up_arrow:" ),
                 id="up", classes="mover", variant="primary"
-            ),
-            Button(
+            )
+            yield Button(
                 Text.from_markup( ":down_arrow:" ),
                 id="down", classes="mover", variant="primary"
-            ),
-            *( [ WebLink( link=self.activity.link ) ] if self.activity.link else [] ),
-            Button( Text.from_markup( ":cross_mark:" ), id="delete", variant="primary" ),
-            classes="buttons"
-        )
+            )
+            if self.activity.link:
+                yield WebLink( link=self.activity.link )
+            yield Button(
+                Text.from_markup( ":cross_mark:" ),
+                id="delete", variant="primary"
+            )
 
     class Dropped( Message ):
         """A message to indicate that an activity was dropped."""

@@ -17,7 +17,7 @@ class NoMatchingActivities( Label ):
         """Render the no-match message.
 
         Returns:
-            RenerResult: The content of the error message.
+            The content of the error message.
         """
         return "Unable to find any activities that satisfy the current filters."
 

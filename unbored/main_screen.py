@@ -60,9 +60,10 @@ class Main( Screen ):
         """Compose the main screen.
 
         Returns:
-            ComposeResult: The layout for the main screen.
+            The layout for the main screen.
         """
 
+        # pylint:disable=attribute-defined-outside-init
         self.choices    = TypeChoices()
         self.activities = VerticalScroll( id="activities" )
         self.filters    = Filters( classes="hidden" )
@@ -83,11 +84,11 @@ class Main( Screen ):
         self.load_activity_list()
 
     ACTIVITY_FILE: Final = Path( "unbored.json" )
-    """Path: The name of the file that the list it saved to."""
+    """The name of the file that the list it saved to."""
 
     @property
     def data_file( self ) -> Path:
-        """Path: The full path to the file for saving the data.
+        """The full path to the file for saving the data.
 
         Note:
             As a side effect of access the directory will be crated if it
