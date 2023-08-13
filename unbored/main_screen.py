@@ -28,7 +28,6 @@ from textual.containers import Vertical, VerticalScroll
 # Local imports.
 from .type_choices import TypeChoices
 from .filters      import Filters
-from .error_boxen  import NoMatchingActivities
 from .activity     import Activity
 
 ##############################################################################
@@ -67,7 +66,6 @@ class Main( Screen ):
         self.choices    = TypeChoices()
         self.activities = VerticalScroll( id="activities" )
         self.filters    = Filters( classes="hidden" )
-        self.no_matches = NoMatchingActivities()
 
         # We don't want the activities list to get focus, only the stuff
         # inside.
@@ -78,7 +76,6 @@ class Main( Screen ):
             yield self.choices
             yield self.activities
             yield self.filters
-            yield self.no_matches
         yield Footer()
 
     def on_mount( self ) -> None:
@@ -156,7 +153,10 @@ class Main( Screen ):
             )
             self.save_activity_list()
         except BoredException:
-            self.query_one( NoMatchingActivities ).show()
+            self.notify(
+                "Unable to find any activities that satisfy the current filters.",
+                severity="error"
+            )
 
     def action_filters( self ) -> None:
         """Toggle the display of the filters."""

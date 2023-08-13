@@ -87,20 +87,4 @@ Activity .mover {
     min-width: 5;
 }
 
-NoMatchingActivities {
-    layer: warning;
-    background: red;
-    color: yellow;
-    text-style: bold;
-    border: solid yellow;
-    padding: 2;
-    width: 40%;
-    offset: 60% 100%;
-    transition: offset 250ms in_out_cubic;
-}
-
-NoMatchingActivities.hidden {
-    offset: 60% -100%;
-}
-
 /* unbored.css ends here */
