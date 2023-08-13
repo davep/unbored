@@ -70,7 +70,11 @@ class Main( Screen ):
         self.no_matches = NoMatchingActivities()
 
         yield Header()
-        yield Vertical( self.choices, self.activities, self.filters, self.no_matches )
+        with Vertical():
+            yield self.choices
+            yield self.activities
+            yield self.filters
+            yield self.no_matches
         yield Footer()
 
     def on_mount( self ) -> None:
