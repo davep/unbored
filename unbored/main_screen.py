@@ -69,6 +69,10 @@ class Main( Screen ):
         self.filters    = Filters( classes="hidden" )
         self.no_matches = NoMatchingActivities()
 
+        # We don't want the activities list to get focus, only the stuff
+        # inside.
+        self.activities.can_focus = False
+
         yield Header()
         with Vertical():
             yield self.choices

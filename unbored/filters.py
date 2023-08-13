@@ -19,7 +19,7 @@ from .focus_within import focus_within
 from .filter_input import FilterInput, IntInput, FloatInput
 
 ##############################################################################
-class Filters( VerticalScroll ):
+class Filters( VerticalScroll, can_focus=False ):
     """Filtering sidebar."""
 
     BINDINGS = [
