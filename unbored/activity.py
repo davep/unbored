@@ -116,6 +116,20 @@ class Activity( Widget ):
             self.post_message( self.Moved() )
             self.scroll_visible()
 
+    def calc_accessibility( access ) -> str:
+        multiplied_number = int(access * 10)
+        remaining_slots = 10 - multiplied_number
+        return '♥' * multiplied_number + 'o' * remaining_slots
+
+    def calc_party( party ) -> str:
+        party_size = 9 if number < 10 else (10 if number == 10 else 10)
+        return '🯅' * party_size + ('+' if party_size > 10 else 'o' * (10 - party_size))
+
+    def calc_price( price ) -> str:
+        multiplied_number = int(price * 10)
+        remaining_slots = 10 - multiplied_number
+        return '$' * multiplied_number + 'o' * remaining_slots
+
     def compose( self ) -> ComposeResult:
         """Compose the activity.
 
@@ -125,14 +139,14 @@ class Activity( Widget ):
         yield Static( self.chosen_at.strftime( '%c' ), classes="timestamp" )
         yield Static(
             f"[b]{self.activity.activity}[/b]\n\n"
-            f"It's considered to have an accessibility of score of {self.activity.accessibility}"
-            " (0 being the most accessible; 1 being the least), "
-            f"is a {self.activity.type.value} type of activity, "
-            + (
-                f"requires {self.activity.participants} participants "
-                if self.activity.participants > 1 else ""
-            ) +
-            f"and has a price score of {self.activity.price} (0 being free)."
+            f"Accessibility: {calc_accessibility(self.activity.accessibility)}"
+            f"Type: {self.activity.type.value}"
+            f"Participants: {calc_party(self.activity.participants)}"
+            # + (
+            #     f"requires {self.activity.participants} participants "
+            #     if self.activity.participants > 1 else ""
+            # ) +
+            f"Price: {calc_price(self.activity.price)}"
         )
         with Horizontal( classes="buttons" ):
             yield Button(
