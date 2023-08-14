@@ -116,19 +116,22 @@ class Activity( Widget ):
             self.post_message( self.Moved() )
             self.scroll_visible()
 
-    def calc_accessibility( access ) -> str:
+    def calc_accessibility( self ) -> str:
+        access = self.activity.accessibility
         multiplied_number = int(access * 10)
         remaining_slots = 10 - multiplied_number
-        return '♥' * multiplied_number + 'o' * remaining_slots
+        return '[yellow]![/] ' * multiplied_number + '[red]♥[/] ' * remaining_slots
 
-    def calc_party( party ) -> str:
-        party_size = 9 if number < 10 else (10 if number == 10 else 10)
-        return '🯅' * party_size + ('+' if party_size > 10 else 'o' * (10 - party_size))
+    def calc_party( self ) -> str:
+        party = self.activity.participants
+        party_size = min(party, 10) # 9 if party > 10 else (10 if party == 10 else 10)
+        return '[cyan]🯅[/] ' * party_size + ('+ ' if party_size > 10 else '[black]🯅[/] ' * (10 - party_size))
 
-    def calc_price( price ) -> str:
+    def calc_price( self ) -> str:
+        price = self.activity.price
         multiplied_number = int(price * 10)
         remaining_slots = 10 - multiplied_number
-        return '$' * multiplied_number + 'o' * remaining_slots
+        return '[green]$[/] ' * multiplied_number + '[black]$[/] ' * remaining_slots
 
     def compose( self ) -> ComposeResult:
         """Compose the activity.
@@ -138,15 +141,15 @@ class Activity( Widget ):
         """
         yield Static( self.chosen_at.strftime( '%c' ), classes="timestamp" )
         yield Static(
+            f"Type: {self.activity.type.value}\n\n"
             f"[b]{self.activity.activity}[/b]\n\n"
-            f"Accessibility: {calc_accessibility(self.activity.accessibility)}"
-            f"Type: {self.activity.type.value}"
-            f"Participants: {calc_party(self.activity.participants)}"
+            f"Accessibility: {self.calc_accessibility()}\n"
+            f"Participants : {self.calc_party()}\n"
             # + (
             #     f"requires {self.activity.participants} participants "
             #     if self.activity.participants > 1 else ""
             # ) +
-            f"Price: {calc_price(self.activity.price)}"
+            f"Price        : {self.calc_price()}"
         )
         with Horizontal( classes="buttons" ):
             yield Button(
