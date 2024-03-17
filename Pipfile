@@ -12,6 +12,9 @@ xdg = "*"
 pylint = "*"
 mypy = "*"
 twine = "*"
+build = "*"
+pre-commit = "*"
+black = "*"
 
 [requires]
 python_version = "3.11"
