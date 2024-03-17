@@ -39,7 +39,7 @@ def long_desc():
 setup(
     name="unbored",
     version=unbored.__version__,
-    description=str(unbored.__doc__),
+    description="A simple terminal-based client for the Bored API.",
     long_description=long_desc(),
     long_description_content_type="text/markdown",
     url="https://github.com/davep/unbored",
