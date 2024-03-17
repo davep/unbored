@@ -4,8 +4,9 @@
 # Textual imports.
 from textual.widget import Widget
 
+
 ##############################################################################
-def focus_within( widget: Widget ) -> bool:
+def focus_within(widget: Widget) -> bool:
     """Is focus somewhere within the given widget?
 
     Args:
@@ -14,6 +15,7 @@ def focus_within( widget: Widget ) -> bool:
     Returns:
         `True` if focus is within the widget, otherwise `False`.
     """
-    return bool( widget.query( "*:focus-within" ) )
+    return bool(widget.query("*:focus-within"))
+
 
 ### focus_within.py ends here

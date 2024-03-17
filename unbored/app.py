@@ -6,11 +6,12 @@ from textual.app import App
 
 ##############################################################################
 # Local imports.
-from .            import __version__
+from . import __version__
 from .main_screen import Main
 
+
 ##############################################################################
-class Unbored( App[ None ] ):
+class Unbored(App[None]):
     """The main application class."""
 
     CSS_PATH = "unbored.css"
@@ -22,18 +23,18 @@ class Unbored( App[ None ] ):
     SUB_TITLE = f"v{__version__}"
     """The sub-title of the application."""
 
-    SCREENS = {
-        "main": Main
-    }
+    SCREENS = {"main": Main}
     """The collection of application screens."""
 
-    def on_mount( self ) -> None:
+    def on_mount(self) -> None:
         """Set up the application on startup."""
-        self.push_screen( "main" )
+        self.push_screen("main")
+
 
 ##############################################################################
 def run() -> None:
     """Run the application."""
     Unbored().run()
+
 
 ### app.py ends here
