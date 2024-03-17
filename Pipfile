@@ -4,7 +4,7 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-textual = {extras = ["dev"], version = "*"}
+textual = "*"
 bored-api = "*"
 xdg = "*"
 
@@ -12,7 +12,6 @@ xdg = "*"
 pylint = "*"
 mypy = "*"
 twine = "*"
-vermin = "*"
 
 [requires]
 python_version = "3.11"
